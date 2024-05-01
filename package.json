@@ -42,6 +42,9 @@
     },
     "rules": {}
   },
+  "scripts": {
+    "build": "vue-cli-service build"
+  },
   "browserslist": [
     "> 1%",
     "last 2 versions",
