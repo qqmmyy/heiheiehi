@@ -16,7 +16,7 @@
   "https://qqmmyy.github.io/heiheiehi/",
   "scripts":{
     "deploy":"gh-pages -d dist"
-  }
+  },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.4.0",
     "@typescript-eslint/parser": "^5.4.0",
