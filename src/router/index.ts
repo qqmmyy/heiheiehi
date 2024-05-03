@@ -22,6 +22,10 @@ const routes = [
    {
     path: '/人流出行',
     component: 人流出行
+  },
+  {
+    path: '/美食风景',
+    component: 美食风景
   }
 ]
 
