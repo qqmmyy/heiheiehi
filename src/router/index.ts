@@ -24,8 +24,8 @@ const routes = [
     component: 人流出行
   },
   {
-    path: '/美食风景',
-    component: 美食风景
+    path: '/可视化',
+    component: 可视化
   }
 ]
 
