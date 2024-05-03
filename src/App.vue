@@ -53,7 +53,7 @@ const count = ref(0)
 <style>
  @font-face {
          font-family: "MyFont";
-         src: url("../src/assets/ChillLongCangKaiShu_Regular.otf");
+         src: url("@/assets/ChillLongCangKaiShu_Regular.otf");
 }
  p{
                 position:absolute;
@@ -66,7 +66,7 @@ const count = ref(0)
           
 body {
       background-image: url('@/assets/pp3.jpg');
-      /* background-size: cover; */
+      background-size: cover; 
       background-repeat: no-repeat;
     }
 button{
