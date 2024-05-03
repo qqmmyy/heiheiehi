@@ -46,7 +46,7 @@ const count = ref(0)
 <p>城迹探旅</p>
     <div style="position:relative;">
         <button onclick="window.location.href='../气候纵览.html'" >气候<br/>纵览</button>
-        <button onclick="window.location.href='../可视化.html'">美食<br/>风景</button>
+        <button onclick="window.location.href='../可视化 .html'">美食<br/>风景</button>
         <button onclick="window.location.href='../人流出行.html'">人流<br/>出行</button>
     </div>
 </template>
