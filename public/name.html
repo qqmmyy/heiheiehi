@@ -1,46 +1,64 @@
+<!DOCTYPE html>
 <html>
 <head>
-<meta  charset=UTF-8">
+<meta charset="UTF-8">
 <title>top</title>
-</head>
-<script>
-       window.onload=function(){
-               parent.chart.location="barc.html";
-               parent.table.location="table1.html";
-};
-</script>
 <style>
-*{
-  font-size:20px;
-}
-a{
-    text-decoration:none;
-    color:black;
-   display:block;
-   margin-top:50px;
-border: 1px solid #ccc;
-}
+    body {
+        background-color: rgba(240,248,255,0.5);
+    }
+    /* 定义链接样式 */
+    .city-button {
+        display: block;
+        margin-top: 20px;
+        padding: 10px;
+        text-align: center;
+        font-size: 20px;
+        text-decoration: none;
+        color: #333;
+        background-color: #f0f0f0;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+    }
+    /* 鼠标悬停时链接样式 */
+    .city-button:hover {
+        background-color: #e0e0e0;
+    }
 </style>
-<body style="background-color: rgba(240,248,255,0.5)" >
-<a href="javascript:void(0);"
-onclick="parent.chart.location='barc.html';
-parent.table.location='table1.html';">
-成都</a>
-<a href="javascript:void(0);"
-onclick="parent.chart.location='barx.html';
-parent.table.location='table2.html';">
-西安</a>
-<a href="javascript:void(0);"
-onclick="parent.chart.location='barm.html';
-parent.table.location='table3.html';">
-厦门</a>
-<a href="javascript:void(0);"
-onclick="parent.chart.location='barh.html';
-parent.table.location='table4.html';">
-海南</a>
-<a href="javascript:void(0);"
-onclick="parent.chart.location='barg.html';
-parent.table.location='table5.html';">
-广州</a>
+<script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+</head>
+<body>
+
+<div id="app">
+    <a v-for="(city, index) in cities" :key="index" class="city-button" @click="loadCity(city)">{{ city.name }}</a>
+</div>
+
+<script>
+new Vue({
+    el: '#app',
+    data: {
+        cities: [
+            { name: '成都', chart: 'barc.html', table: 'table1.html' },
+            { name: '西安', chart: 'barx.html', table: 'table2.html' },
+            { name: '厦门', chart: 'barm.html', table: 'table3.html' },
+            { name: '海南', chart: 'barh.html', table: 'table4.html' },
+            { name: '广州', chart: 'barg.html', table: 'table5.html' }
+        ]
+    },
+    methods: {
+        loadCity(city) {
+            parent.chart.location = city.chart;
+            parent.table.location = city.table;
+        }
+    },
+    mounted() {
+        // 默认加载成都的数据
+        parent.chart.location = this.cities[0].chart;
+        parent.table.location = this.cities[0].table;
+    }
+});
+</script>
+
 </body>
 </html>
