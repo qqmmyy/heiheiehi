@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" content=”no-referrer”  name=”referrer”>
+    <title>全国地图</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+</head>
+<body >
+    <div id="china" style="width:800px ; height: 800px;"></div>
+
+<script type="text/javascript">
+   var myChart = echarts.init(document.getElementById('china'));
+
+// 指定图表的配置项和数据
+myChart.showLoading();
+$.get('https://geo.datav.aliyun.com/areas_v3/bound/100000_full.json', function (geoJson) {
+myChart.hideLoading();
+echarts.registerMap('china', geoJson);
+myChart.setOption(
+  option = {
+  title: {
+      text: '中国地图',
+      subtext: 'Data from wikipedia and baidu',
+      sublink:
+      'http://zh.wikipedia.org/wiki/%E9%A6%99%E6%B8%AF%E8%A1%8C%E6%94%BF%E5%8D%80%E5%8A%83#cite_note-12'
+  },
+
+  geo: {
+                 name: '中国地图',
+                 type: 'map',
+                 map: 'china',
+                 selectedMode: 'multiple',
+                },
+visualMap: {
+    seriesIndex: 0,
+    show:false,
+      min: 0,
+      max: 8,
+      text: ['High', 'Low'],
+      realtime: true,
+      calculable: true,
+      hoverLink:true,
+      left:'400px',
+      bottom:'200px',
+      inRange: {
+      color: ['LightSkyBlue', 'yellow', '#FFA54F']
+      }
+            },
+  series: [
+      {
+      name: '中国地图',
+      type: 'map',
+      map: 'china',
+      label: {
+          show: true
+      },
+      data: [
+          { name: '河北省', value: 1 },
+          { name: '山西省', value: 5 },
+          { name: '辽宁省', value: 2 },
+          { name: '吉林省', value: 4 },
+          { name: '黑龙江省', value: 3 },
+          { name: '江苏省', value: 6 },
+          { name: '浙江省', value: 1 },
+          { name: '安徽省', value: 5 },
+          { name: '福建省', value: 5 },
+          { name: '江西省', value: 5 },
+          { name: '山东省', value: 8 },
+          { name: '河南省', value: 3 },
+          { name: '湖北省', value: 2 },
+          { name: '湖南省', value: 4 },
+          { name: '广东省', value: 4 },
+          { name: '四川省', value: 7 },
+          { name: '贵州省', value: 6 },
+          { name: '云南省', value: 6 },
+          { name: '陕西省', value: 6 },
+          { name: '甘肃省', value: 4 },
+          { name: '青海省', value: 2 },
+          { name: '台湾省', value: 5 },
+          { name: '海南省', value: 6 },
+          { name: '新疆维吾尔自治区', value: 2 },
+          { name: '西藏自治区', value: 1 },
+          { name: '广西壮族自治区', value: 4 },
+          { name: '宁夏回族自治区', value: 3 },
+          { name: '内蒙古自治区', value: 2 },
+          { name: '重庆市', value: 6 },
+          { name: '北京市', value: 7 },
+          { name: '天津市', value: 5 },
+          { name: '香港特别行政区', value: 4 },
+          { name: '澳门特别行政区', value: 2 },
+          { name: '上海市', value: 6 },
+          { name: '南海诸岛', value: 2 },   
+      ],   
+      },
+      {
+                  name: '标记点',
+                  type: 'effectScatter',
+                  coordinateSystem: 'geo',
+                  data: [
+                        {name: '成都', value:[103,30.5]},
+                        {name: '西安', value:[108.55,34.15]},
+                        {name: '厦门', value:[118.04,24.26]},
+                        {name: '海南', value:[109.37,19.10]},
+                        {name: '广州', value:[113.27,23.13]},
+                    ],
+                  label:{
+                    formatter: '{b}',
+                    show:true,
+                    position: 'right',
+                  },
+
+                  symbolSize: 10,
+                  color:'#FF4500',
+                  visualMap:false
+
+
+        },
+  ],
+
+  tooltip: {
+      trigger: 'item',
+      formatter: '{b}<br/>{c}',
+
+  },
+  toolbox: {
+      show: true,
+      orient: 'vertical',
+      left: 'right',
+      top: 'center',
+      feature: {
+      dataView: { readOnly: false },
+      restore: {},
+      saveAsImage: {}
+      }
+  },
+
+  });
+});
+
+myChart.on('click', function(params) {
+      if (params.componentType === 'series') {
+        if (params.seriesType === 'effectScatter') {
+          var name = params.data.name;
+          if (name === '成都') {
+            window.parent.city.location.href = '成都地图.html';
+            window.parent.chart.location.href = '成都词云.html';
+          } 
+        //   else if (name === '散点') {
+        //     window.location.href = '城市地图.html';
+        //   }
+        }
+      }
+    });
+
+</script>
+</body>
+</html>
