@@ -12,7 +12,7 @@
        var myChart = echarts.init(document.getElementById('chengdu'));   
     // 指定图表的配置项和数据
     myChart.showLoading();
-    $.get('100000_full (1)', function (geoJson) {
+    $.get('100000_full (1).json', function (geoJson) {
     myChart.hideLoading();
     echarts.registerMap('chengdu', geoJson);
     myChart.setOption(
