@@ -2,17 +2,24 @@
 <head>
 <meta charset=UTF-8">
 <title>交通工具时长</title>
+	 <script>
+         window.onload = function() {
+            var iframe = document.getElementById("myframe");
+            iframe.width = iframe.contentWindow.document.body.scrollWidth;
+            iframe.height = iframe.contentWindow.document.body.scrollHeight;
+         }
+      </script>
 </head> 
 <frameset rows="5%,95%" border="1">
-         <frame src="导航.html" style="width:100%;height:100%;">
+         <frame id="myframe" src="导航.html" >
          <frameset cols="*,70%,25%" border="1">
-	        <frame src="name.html"
+	        <frame id="myframe" src="name.html"
 name="city">
 		<frameset rows="50%,50%" border="1">
-	            <frame src="chart.html" name="chart" style="width:100%;height:100%;">
-		    <frame src="transportation_timeline.html" style="width:100%;height:100%;">
+	            <frame id="myframe" src="chart.html" name="chart" >
+		    <frame id="myframe" src="transportation_timeline.html" >
 		</frameset>
-	            <frame src="table.html" name="table" style="width:100%;height:100%;">
+	            <frame id="myframe" src="table.html" name="table">
          </frameset>
 </frameset>
 </html>           
