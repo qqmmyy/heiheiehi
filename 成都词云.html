@@ -7,13 +7,13 @@
     <script src="https://raw.gitcode.com/ecomfe/echarts-wordcloud/raw/master/dist/echarts-wordcloud.min.js"></script>
     <title>vocabulary</title>
     <style>
-      #main {
+      #wordcloud {
         width: 50%;
-        height:600px;
+        height: 700px;
         float: left;
       }
       #info-container {
-        margin-top: 10px;
+        margin-top: 20px;
         display: flex;
         justify-content: center; /* 水平居中 */
         align-items: center; /* 垂直居中 */
@@ -29,9 +29,9 @@
 
       #info-image {
         /* 注意：这里我们直接对 #info-image 应用样式，而不是 #info-image img */
-        max-width: 65%; /* 响应式，最大宽度为容器宽度 */
+        max-width: 100%; /* 响应式，最大宽度为容器宽度 */
         height: auto; /* 保持图片的原始纵横比 */
-        margin: 0 5px;
+        margin: 0 auto;
       }
     </style>
   </head>
@@ -315,7 +315,6 @@
                   ")"
                 );
               },
-              fontFamily: "font",
             },
             // 调用数据
             data: jsonlist,
