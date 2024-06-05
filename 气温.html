@@ -11,7 +11,8 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            height:auto;
+            scroll-behavior:hidden;
         }
 
         .search-container {
@@ -42,6 +43,10 @@
         #chartContainer {
             margin-top: 20px;
         }
+        #aqiContainer{
+            margin-top: 20px;
+
+        }
     </style>
 </head>
 <body style="background-color: rgba(240,248,255,0.5)">
@@ -53,7 +58,8 @@
                 <button @click="searchCity" class="search-button">搜索</button>
             </div>
             
-            <div id="chartContainer" style="width: 1100px; height: 300px;"></div>
+            <div id="chartContainer" ></div>
+            <div id="aqiContainer" ></div>
         </div>
     </div>
 
@@ -70,15 +76,38 @@
                 searchCity: function() {
                     var cityYear = this.cityName.trim() + this.year.trim();
                     if (cityYear !== '') {
+                        // 检查并生成气温图表                        
                         var chartData = generateChart(cityYear);
                         var chartContainer = document.getElementById("chartContainer");
-                        var myChart = echarts.init(chartContainer);
-                        myChart.setOption(chartData);
+                        if (chartContainer) {
+                            chartContainer.style.cssText = "width: 1100px;height :300px";
+                            var myChart = echarts.init(chartContainer);
+                            myChart.setOption(chartData);
+                        } else {
+                            console.error("无法找到气温图表的容器");
+                        }
+                        
+                        // 检查并生成空气质量图表
+                        if (aqiData[cityYear]) {
+                            var aqiChartData = generateAQIChart(cityYear);
+                            var aqiContainer = document.getElementById("aqiContainer");
+                            if (aqiContainer) {
+                                aqiContainer.style.cssText = "width: 1100px;height:300px";
+                                var aqiChart = echarts.init(aqiContainer);
+                                aqiChart.setOption(aqiChartData);
+                                console.log("zhaodaole")
+                            } else {
+                                console.error("无法找到空气质量图表的容器");
+                            }
+                        } else {
+                            console.warn("没有找到指定城市和年份的空气质量数据:", cityYear);
+                        }
                     } else {
                         alert("请输入城市名称和年份");
                     }
                 }
             }
+            
         });
 
         // 城市气温数据
@@ -144,7 +173,109 @@
                "最低气温": [4, 7, 11, 14, 19, 23, 25, 24, 23, 16, 11, 3]
 }
         };
+        var aqiData = {
+            "成都2021": {
+                "AQI": [101, 84, 78, 58, 77, 76, 82, 71, 56, 44, 74, 90],
+                "PM2.5": [75, 61, 37, 29, 38, 32, 22, 18, 19, 24, 50, 65]
+            },
+            "成都2022": {
+                "AQI": [91, 61, 75, 70, 75, 79, 107, 103, 51, 61, 69, 81],
+                "PM2.5": [67, 43, 48, 32, 30, 29, 25, 24, 24, 39, 48, 58]
+            },
+            "成都2023": {
+                "AQI": [106, 86, 61, 79, 78, 86, 93, 68, 68, 49, 66, 101],
+                "PM2.5": [76, 62, 39, 32, 32, 24, 21, 18, 25, 30, 45, 72]
+            },
+            "厦门2021": {
+                "AQI": [85, 88, 76, 72, 80, 77, 81, 79, 71, 69, 83, 87],
+                "PM2.5": [55, 60, 52, 48, 57, 54, 58, 56, 49, 47, 60, 63]
+            },
+            "厦门2022": {
+                "AQI": [90, 89, 78, 74, 84, 81, 85, 82, 73, 71, 86, 90],
+                "PM2.5": [59, 61, 55, 51, 60, 58, 61, 59, 50, 49, 63, 66]
+            },
+            "厦门2023": {
+                "AQI": [92, 90, 80, 76, 86, 83, 88, 85, 76, 74, 88, 91],
+                "PM2.5": [61, 63, 57, 53, 62, 60, 64, 62, 52, 51, 65, 68]
+            },
+            "西安2021": {
+                "AQI": [95, 97, 84, 82, 92, 90, 95, 93, 84, 82, 96, 98],
+                "PM2.5": [66, 69, 61, 58, 68, 65, 70, 67, 60, 58, 70, 73]
+            },
+            "西安2022": {
+                "AQI": [98, 99, 87, 85, 95, 92, 97, 95, 86, 84, 98, 100],
+                "PM2.5": [68, 71, 63, 60, 70, 67, 72, 69, 62, 60, 72, 75]
+            },
+            "西安2023": {
+                "AQI": [100, 101, 89, 87, 97, 94, 99, 97, 88, 86, 100, 102],
+                "PM2.5": [70, 73, 65, 62, 72, 69, 74, 71, 64, 62, 74, 77]
+            },
+            "海南2021": {
+                "AQI": [60, 62, 55, 53, 58, 56, 59, 57, 52, 50, 63, 65],
+                "PM2.5": [40, 42, 36, 34, 39, 37, 40, 38, 33, 31, 44, 46]
+            },
+            "海南2022": {
+                "AQI": [62, 64, 57, 55, 60, 58, 61, 59, 54, 52, 65, 67],
+                "PM2.5": [42, 44, 38, 36, 41, 39, 42, 40, 35, 33, 46, 48]
+            },
+            "海南2023": {
+                "AQI": [64, 66, 59, 57, 62, 60, 63, 61, 56, 54, 67, 69],
+                "PM2.5": [44, 46, 40, 38, 43, 41, 44, 42, 37, 35, 48, 50]
+            },
+            "广州2021": {
+                "AQI": [75, 77, 70, 68, 73, 71, 75, 73, 66, 64, 78, 80],
+                "PM2.5": [50, 52, 45, 43, 48, 46, 50, 48, 41, 39, 53, 55]
+            },
+            "广州2022": {
+                "AQI": [77, 79, 72, 70, 75, 73, 77, 75, 68, 66, 80, 82],
+                "PM2.5": [52, 54, 47, 45, 50, 48, 52, 50, 43, 41, 55, 57]
+            },
+            "广州2023": {
+                "AQI": [79, 81, 74, 72, 77, 75, 79, 77, 70, 68, 82, 84],
+                "PM2.5": [54, 56, 49, 47, 52, 50, 54, 52, 45, 43, 57, 59]
+            }
+        };
 
+        function generateAQIChart(cityYear) {
+            var aqiChartData = {
+                "xAxis": {
+                    "type": "category",
+                    "data": ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"]
+                },
+                "yAxis": {
+                    "type": "value"
+                },
+                "series": [
+                    {
+                        "name": "AQI",
+                        "type": "line",
+                        "data": aqiData[cityYear]["AQI"]
+                    },
+                    {
+                        "name": "PM2.5",
+                        "type": "line",
+                        "data": aqiData[cityYear]["PM2.5"]
+                    }
+                ],
+                "toolbox": {
+                    "feature": {
+                        "saveAsImage": {}
+                    }
+                },
+                "tooltip": {
+                    "show": true,
+                    "trigger": "axis",
+                    "formatter": "{b}：{c}",
+                },
+                "legend": {
+                    "data": ['AQI', 'PM2.5']
+                },
+                "title": {
+                    "text": '全年空气质量变化图'
+                }
+            };
+            return aqiChartData;
+        }
         // 根据城市名称生成 echarts 图表数据
         function generateChart(cityYear) {
             var chartData = {
