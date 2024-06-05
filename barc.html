@@ -2,179 +2,92 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Awesome-pyecharts</title>
-                <script type="text/javascript" src="https://assets.pyecharts.org/assets/v5/echarts.min.js"></script>
-
+    <title>旅游人次统计</title>
+    <script type="text/javascript" src="https://assets.pyecharts.org/assets/v5/echarts.min.js"></script>
 </head>
-<body style="background-color: rgba(240,248,255,0.5)" >
-    <div id="c1f43e59e8104c9e897e08c2c6197b05" class="chart-container" style="width:800px; height:400px; "></div>
+<body style="background-color: rgba(240,248,255,0.5)">
+    <!-- 年份柱状图 -->
+    <div id="yearChart" class="chart-container" style="width:900px; height:500px;"></div>
+    <!-- 月份折线图，初始状态下隐藏 -->
+    <div id="monthChart" class="chart-container" style="width:900px; height:500px; margin-top: 50px; display: none;"></div>
+    
     <script>
-        var chart_c1f43e59e8104c9e897e08c2c6197b05 = echarts.init(
-            document.getElementById('c1f43e59e8104c9e897e08c2c6197b05'), 'light', {renderer: 'canvas'});
-        var option_c1f43e59e8104c9e897e08c2c6197b05 = {
-    "animation": true,
-    "animationThreshold": 2000,
-    "animationDuration": 1000,
-    "animationEasing": "cubicOut",
-    "animationDelay": 0,
-    "animationDurationUpdate": 300,
-    "animationEasingUpdate": "cubicOut",
-    "animationDelayUpdate": 0,
-    "aria": {
-        "enabled": false
-    },
-    "series": [
-        {
-            "type": "bar",
-            "name": "\u65c5\u6e38\u4eba\u6b21(\u5355\u4f4d\uff1a\u4e07)",
-            "legendHoverLink": true,
-            "data": [
-                28024.5,
-                20418.6,
-                20500,
-                16379
-            ],
-            "realtimeSort": false,
-            "showBackground": false,
-            "stackStrategy": "samesign",
-            "cursor": "pointer",
-            "barMinHeight": 0,
-            "barCategoryGap": "20%",
-            "barGap": "30%",
-            "large": false,
-            "largeThreshold": 400,
-            "seriesLayoutBy": "column",
-            "datasetIndex": 0,
-            "clip": true,
-            "zlevel": 0,
-            "z": 2,
-            "label": {
-                "show": true,
-                "margin": 8
+        // 初始化年份柱状图和月份折线图
+        var yearChart = echarts.init(document.getElementById('yearChart'), 'light', {renderer: 'canvas'});
+        var monthChart = echarts.init(document.getElementById('monthChart'), 'light', {renderer: 'canvas'});
+
+        // 数据定义
+        var yearData = [28024.5, 20418.6, 20500, 16379];
+        var years = ["2019", "2020", "2021", "2022"];
+        var monthData = {
+            "2019": [2000, 1800, 2200, 2600, 2400, 3000, 3500, 3200, 3100, 3300, 2800, 2700],
+            "2020": [1500, 1400, 1700, 1800, 2000, 2100, 2300, 2200, 2400, 2600, 2500, 1900],
+            "2021": [1600, 1700, 1500, 1800, 1900, 2000, 2100, 2300, 2500, 2600, 2400, 2200],
+            "2022": [1400, 1300, 1200, 1500, 1700, 1600, 1800, 1900, 2000, 2100, 2200, 2300]
+        };
+        
+        // 年份柱状图的配置选项
+        var yearOption = {
+            title: {
+                text: '近几年成都旅游人次',
+                left: 'center'
             },
-            "itemStyle": {
-                "color": "green",
-                "opacity": 0.3
-            }
-        }
-    ],
-    "legend": [
-        {
-            "data": [
-                "\u65c5\u6e38\u4eba\u6b21(\u5355\u4f4d\uff1a\u4e07)"
-            ],
-            "selected": {},
-            "show": true,
-            "left": "right",
-            "padding": 5,
-            "itemGap": 10,
-            "itemWidth": 25,
-            "itemHeight": 14,
-            "backgroundColor": "transparent",
-            "borderColor": "#ccc",
-            "borderRadius": 0,
-            "pageButtonItemGap": 5,
-            "pageButtonPosition": "end",
-            "pageFormatter": "{current}/{total}",
-            "pageIconColor": "#2f4554",
-            "pageIconInactiveColor": "#aaa",
-            "pageIconSize": 15,
-            "animationDurationUpdate": 800,
-            "selector": false,
-            "selectorPosition": "auto",
-            "selectorItemGap": 7,
-            "selectorButtonGap": 10
-        }
-    ],
-    "tooltip": {
-        "show": true,
-        "trigger": "item",
-        "triggerOn": "mousemove|click",
-        "axisPointer": {
-            "type": "line"
-        },
-        "showContent": true,
-        "alwaysShowContent": false,
-        "showDelay": 0,
-        "hideDelay": 100,
-        "enterable": false,
-        "confine": false,
-        "appendToBody": false,
-        "transitionDuration": 0.4,
-        "textStyle": {
-            "fontSize": 14
-        },
-        "borderWidth": 0,
-        "padding": 5,
-        "order": "seriesAsc"
-    },
-    "xAxis": [
-        {
-            "show": true,
-            "scale": false,
-            "nameLocation": "end",
-            "nameGap": 15,
-            "gridIndex": 0,
-            "inverse": false,
-            "offset": 0,
-            "splitNumber": 5,
-            "minInterval": 0,
-            "splitLine": {
-                "show": true,
-                "lineStyle": {
-                    "show": true,
-                    "width": 1,
-                    "opacity": 1,
-                    "curveness": 0,
-                    "type": "solid"
-                }
+            tooltip: {
+                trigger: 'item',
+                formatter: '{b}: {c} 万'
             },
-            "data": [
-                "2019",
-                "2020",
-                "2021",
-                "2022"
-            ]
-        }
-    ],
-    "yAxis": [
-        {
-            "show": true,
-            "scale": false,
-            "nameLocation": "end",
-            "nameGap": 15,
-            "gridIndex": 0,
-            "inverse": false,
-            "offset": 0,
-            "splitNumber": 5,
-            "minInterval": 0,
-            "splitLine": {
-                "show": true,
-                "lineStyle": {
-                    "show": true,
-                    "width": 1,
-                    "opacity": 1,
-                    "curveness": 0,
-                    "type": "solid"
+            xAxis: {
+                type: 'category',
+                data: years
+            },
+            yAxis: {
+                type: 'value',
+                name: '人次 (万)'
+            },
+            series: [{
+                type: 'bar',
+                data: yearData,
+                itemStyle: {
+                    color: 'green',
+                    opacity: 0.8
                 }
-            }
-        }
-    ],
-    "title": [
-        {
-            "show": true,
-            "text": "\u8fd1\u51e0\u5e74\u6210\u90fd\u65c5\u6e38\u4eba\u6b21",
-            "target": "blank",
-            "subtarget": "blank",
-            "padding": 5,
-            "itemGap": 10,
-            "textAlign": "auto",
-            "textVerticalAlign": "auto",
-            "triggerEvent": false
-        }
-    ]
-};
-        chart_c1f43e59e8104c9e897e08c2c6197b05.setOption(option_c1f43e59e8104c9e897e08c2c6197b05);
+            }]
+        };
+
+        // 月份折线图的配置选项
+        var monthOption = {
+            title: {
+                text: '',
+                left: 'center'
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+            xAxis: {
+                type: 'category',
+                data: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月']
+            },
+            yAxis: {
+                type: 'value',
+                name: '人次 (万)'
+            },
+            series: [{
+                type: 'line',
+                data: []
+            }]
+        };
+
+        // 设置初始选项
+        yearChart.setOption(yearOption);
+
+        // 绑定点击事件更新月份折线图并显示
+        yearChart.on('click', function (params) {
+            var selectedYear = params.name;
+            monthOption.title.text = selectedYear + ' 年每月人流量';
+            monthOption.series[0].data = monthData[selectedYear];
+            monthChart.setOption(monthOption);
+            document.getElementById('monthChart').style.display = 'block'; // 显示月份折线图
+        });
     </script>
 </body>
 </html>
