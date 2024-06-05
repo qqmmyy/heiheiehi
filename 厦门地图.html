@@ -12,7 +12,7 @@
        var myChart = echarts.init(document.getElementById('xiamen'));   
     // 指定图表的配置项和数据
     myChart.showLoading();
-    $.get('https://geo.datav.aliyun.com/areas_v3/bound/geojson?code=350200_full', function (geoJson) {
+    $.get('xiamen.json', function (geoJson) {
     myChart.hideLoading();
     echarts.registerMap('xiamen', geoJson);
     myChart.setOption(
