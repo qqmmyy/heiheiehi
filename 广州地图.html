@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="utf-8">
+    <title>广州地图</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+</head>
+<body >
+    <div id="guangzhou" style="width: 700px;height:700px;margin:0"></div>
+    <script type="text/javascript">
+       var myChart = echarts.init(document.getElementById('guangzhou'));   
+    // 指定图表的配置项和数据
+    myChart.showLoading();
+    $.get('https://geo.datav.aliyun.com/areas_v3/bound/geojson?code=440100_full', function (geoJson) {
+    myChart.hideLoading();
+    echarts.registerMap('guangzhou', geoJson);
+    myChart.setOption(
+      option = {
+      title: {
+          text: '广州地图',
+      },
+                    
+      geo: {
+                     name: '广州地图',
+                     type: 'map',
+                     map: 'guangzhou',
+                     selectedMode: 'multiple',
+                    },
+    visualMap: {
+        seriesIndex: 0,
+          show:false,
+          min: 0,
+          max: 8,
+          // text: ['High', 'Low'],
+          // realtime: true,
+          // calculable: true,
+          // hoverLink:true,
+          // left:'100px',
+          // bottom:'100px',
+          inRange: {
+          color: ['#BFEFFF80', '#BFEFFF80', '#BFEFFF80']
+          }
+                },
+      series: [
+          {
+          name: '广州地图',
+          type: 'map',
+          map: 'guangzhou',
+          label: {
+              show: true
+          },
+          data: [
+              { name: '越秀区', value: 1 },
+              { name: '荔湾区', value: 5 },
+              { name: '海珠区', value: 2 },
+              { name: '天河区', value: 4 },
+              { name: '白云区', value: 3 },
+              { name: '黄埔区', value: 6 },
+              { name: '番禺区', value: 1 },
+              { name: '花都区', value: 5 },
+              { name: '南沙区', value: 5 },
+              { name: '增城区', value: 5 },
+              { name: '从化区', value: 8 },
+
+          ],   
+          },
+          // {
+          //             name: '标记点',
+          //             type: 'effectScatter',
+          //             coordinateSystem: 'geo',
+          //             data: [
+          //               {name: '锦里古街', value:[104,30.6], tooltipContent: '这里是锦里古街'},
+          //               {name: '人民公园', value:[104,30.4], tooltipContent: '欢迎来到人民公园'},
+          //               {name: '熊猫基地', value:[104.14469,30.737297], tooltipContent: '这里有可爱的熊猫'},
+          //               {name: '都江堰', value:[103.608743,31.001635], tooltipContent: '都江堰是一处古代水利工程'},
+          //               ],
+          //             label:{
+          //               formatter: '{b}',
+          //               show:true,
+          //               position: 'right',
+          //             },
+    
+          //             symbolSize: 15,
+          //             color:'#FFA54F',
+          //             visualMap:false
+                      
+                      
+          //   },
+      ],
+    
+      tooltip: {
+          trigger: 'item',
+          formatter:  function(params) {
+        return params.data.tooltipContent; // 根据数据点的tooltipContent属性返回悬浮框内容
+    },
+          
+      },
+      toolbox: {
+          show: true,
+          orient: 'vertical',
+          left: 'right',
+          top: 'center',
+          feature: {
+          dataView: { readOnly: false },
+          restore: {},
+          saveAsImage: {}
+          }
+      },
+    
+      });
+    });
+    </script>
+</body>
+</html>
