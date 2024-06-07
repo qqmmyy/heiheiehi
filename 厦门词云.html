@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+    <script src="https://raw.gitcode.com/ecomfe/echarts-wordcloud/raw/master/dist/echarts-wordcloud.min.js"></script>
+    <title>xiamen_voc</title>
+    <style>
+      #wordcloud {
+        width: 50%;
+        height: 700px;
+        float: left;
+      }
+      #info-container {
+        margin-top: 20px;
+        display: flex;
+        justify-content: center; /* 水平居中 */
+        align-items: center; /* 垂直居中 */
+        flex-direction: row;
+      }
+
+      #info-text {
+        flex: 1;
+        max-width: 100%; /* 响应式，最大宽度为容器宽度 */
+        font-size: 20px;
+        text-align: center; /* 如果你想要文本在垂直堆叠时也居中 */
+      }
+
+      #info-image {
+        /* 注意：这里我们直接对 #info-image 应用样式，而不是 #info-image img */
+        max-width: 100%; /* 响应式，最大宽度为容器宽度 */
+        height: auto; /* 保持图片的原始纵横比 */
+        margin: 0 auto;
+      }
+    </style>
+  </head>
+  <body>
+    <center>
+      <div id="main" style="height: 600px; width: 800px"></div>
+      <div id="info-container">
+        <div id="info-text"></div>
+        <div id="info-image"></div>
+      </div>
+    </center>
+    <script type="text/javascript">
+      // 进行echarts的初始化，以及定位到画布
+      var mychart = echarts.init(document.getElementById("main"));
+      var jsonlist = [];
+      jsonlist.push(
+        {
+          name: "鼓浪屿",
+          value: 1585,
+          info: "鼓浪屿，这座美丽的小岛，是厦门最著名的旅游景点之一。这里有着独特的欧式建筑和浓郁的文艺气息，还有着世界闻名的钢琴博物馆和各种小店。漫步在鼓浪屿的街头巷尾，随处都能感受到这座小岛的浪漫和优雅。",
+          imageUrl: "img/xiamen/gulangyu.jpg",
+        },
+        {
+          name: "厦门大学",
+          value: 8956,
+          info: "厦门大学，这座美丽的学府，是许多年轻人梦想的地方。这里有着优美的校园环境和深厚的文化底蕴，还有着优秀的师资力量和先进的教学设施。",
+          imageUrl: "img/xiamen/xiamendaxue.jpg",
+        },
+        {
+          name: "厦门园林植物园",
+          value: 177,
+          info: "厦门园林植物园，俗称“万石植物园”，位于福建省厦门岛东南隅的万石山中，背靠五老峰、南普陀寺、厦门大学，紧邻中山路商圈。始建于1960年，占地4.93平方公里，是福建省第一个植物园，是鼓浪屿—万石山风景名胜区的重要组成部分，集植物景观、自然景观、人文景观于一体。",
+          imageUrl: "img/xiamen/zhiwuyuan.jpeg",
+        },
+        {
+          name: "南普陀寺",
+          value: 694,
+          info: "南普陀寺，是厦门最著名的佛教寺庙之一，位于五老峰下，依山傍海，景色宜人。这里有着悠久的历史和深厚的文化底蕴，是众多信徒心中的圣地。",
+          imageUrl: "img/xiamen/nanputuosi.jpg",
+        },
+        {
+          name: "中山路",
+          value: 249,
+          info: "中山路步行街，是厦门最繁华的商业街之一。这里有着众多的商场和店铺，还有着各种美食和特色小吃。在这里购物和品尝美食，是一种非常愉悦的体验。",
+          imageUrl: "img/xiamen/zhongshanlu.jpg@h_1280",
+        },
+        {
+          name: "环岛路",
+          value: 114,
+          info: "环岛路，是厦门最著名的海滨大道之一。这里有着美丽的海景和宽阔的道路，是骑行和散步的好去处。沿着环岛路前行，可以看到各种风格的雕塑和景观，让人流连忘返。",
+          imageUrl: "img/xiamen/huandaolu.jpg@h_1280",
+        },
+        {
+          name: "沙滩/海滩",
+          value: 907,
+          info: "鼓浪屿的美华沙滩、大德记沙滩、港仔后沙滩和观海园沙滩等都是看海踏浪的好地方，吸引众多市民游客前来游玩。",
+          imageUrl: "img/xiamen/shatan.webp",
+        },
+        {
+          name: "土楼",
+          value: 615,
+          info: "土楼，指主要分布在福建西南部一种适宜大家族居住的、具有很强的防御性能，在广东潮州市饶平县也保留了大量土楼民居遗产。以土、木、石、竹为主要建筑材料，利用未经焙烧的土并按一定比例的沙质黏土和黏质沙土拌合而成，用夹墙板夯筑而成的两层以上的房屋。",
+          imageUrl: "img/xiamen/tulou.webp",
+        },
+        {
+          name: "韭菜盒",
+          value: 897,
+          info: "韭菜盒(kú-tshài-a̍h)又名韭菜盒子，是福建闽南和台湾民间的特色风味小吃，其独特的风味适合各类人群。表皮金黄酥脆，馅心韭香脆嫩。厦门的韭菜盒早负盛名，尤其是40年代，中山路泰山口吴唇老师傅做的韭菜盒在厦门颇有名气。",
+          imageUrl: "img/xiamen/jiucaihe.webp",
+        },
+        {
+          name: "虾面",
+          value: 120,
+          info: "虾面是厦门的传统特色小吃，其特色在于浓郁的虾汤。这种汤是用厦门本岛附近的“狗虾”和猪骨熬煮而成，味道鲜美且入味。在明月虾面店，除了虾汤，还有虾仁、猪后腿肉、豆芽和手工水面。这些配料烫熟后，加入虾汤、蒜泥、韭菜段和胡椒粉即可食用。其口感鲜美醇香，甜爽可口。",
+          imageUrl: "img/xiamen/xiamian.jpg@h_1280",
+        },
+        {
+          name: "四果汤",
+          value: 156,
+          info: "四果汤是一道美味可口的夏日冰品，是闽南夏季消暑的重要饮品。在很多代人的记忆里都离不开一种伴随着炎夏和蝉声的爽口甜蜜，那种爽口香甜源自于一碗流传已久的四果汤。",
+          imageUrl: "img/xiamen/siguotang.webp",
+        },
+        {
+          name: "土笋冻",
+          value: 924,
+          info: "土笋冻是厦门及闽南地区的一种特色传统风味小吃，其主原料是一种名为“星虫”的小动物，学名为可口革囊星虫，身长约二三寸。这种小动物身上的胶质在熬煮后溶入水中，冷却后即凝结成块状，形成晶莹剔透的土笋冻。其肉质细腻清透，口感QQ弹弹、清凉爽滑，搭配调好的料汁，如酱油、永春陈醋和蒜蓉，味道甘鲜美味。",
+          imageUrl: "img/xiamen/tusundong.jpg.crdownload",
+        },
+        {
+          name: "面线糊",
+          value: 130,
+          info: "厦门面线糊是福建闽南厦门、泉州地区和台湾地区的风味小吃，起源于福建泉州。它由细面线、地瓜粉制作而成，呈糊状。通常以猪骨汤为调和汤底，将原本清汤面线煮至绵软，成为糊状。早晨时，人们常搭配油条和马蹄酥一同品尝，体验甜咸的口感。此外，加入卤蛋、大肠、虾仁等配料，使其成为午餐或晚餐的绝佳选择。味道鲜美、清甜爽滑，具有独特的闽南地方风味。",
+          imageUrl: "img/xiamen/mianxianhu.webp",
+        },
+        {
+          name: "蚵仔煎",
+          value: 517,
+          info: "蚵仔煎,(闽南语读作é ā jiān,普通话译作“海蛎煎”),是一道常见的家常菜,流行于闽南,台湾,潮汕等地区经典的传统小吃之一。2018年9月,当选福建十大经典名菜。这道菜选用新鲜肥美的海蛎，经过清洗去泥沙后，与青蒜、韭菜和地瓜粉混合搅拌。在油锅中摊平两面煎透，最后加入搅散的鸡蛋，使其更加美味。 ",
+          imageUrl: "img/xiamen/kezaijian.jpeg",
+        },
+        {
+          name: "白鹭",
+          value: 1312,
+          info: "作为厦门的“市鸟”，白鹭在厦门可算是享尽了万千宠爱。无论是筼筜湖或是公园，时不时都能见到白鹭在水间岸上自由穿行、奔跑的身影。",
+          imageUrl: "img/xiamen/bailu.webp",
+        },
+        {
+          name: "三角梅",
+          value: 3086,
+          info: "作为市花的三角梅，每个人厦门从小到大都看不厌的风景。每到秋冬之时开得格外灿烂，铁路文化公园、梅海玲、园林植物园……到处都是慕名而去的市民。",
+          imageUrl: "img/xiamen/sanjiaomei.jpeg.crdownload",
+        },
+        {
+          name: "芒果",
+          value: 6780,
+          info: "厦门的夏天，是属于芒果的季节。每年盛夏都会看到阿公阿嬷带着小孙子上街打芒果的盛况，甚至连许多年轻人都拿着竹竿对准芒果树疯狂扫荡。",
+          imageUrl: "img/xiamen/mangguo.jpeg.crdownload",
+        },
+        {
+          name: "花砖",
+          value: 177,
+          info: "如今被做成手办周边风靡全国的花砖，其实也是属于19世纪时的厦门的影子。现在如果有机会走进鼓浪屿或是华新路的别墅老宅，仍能见到满地优雅的风景。",
+          imageUrl: "img/xiamen/huazhuan.jpeg.crdownload",
+        },
+        {
+          name: "海鸥",
+          value: 3279,
+          info: "",
+        },
+        {
+          name: "鸽子",
+          value: 1721,
+          info: "",
+        },
+        {
+          name: "泡茶话仙",
+          value: 564,
+          info: "在厦门，能和“呷霸咩”这句口头禅平分秋色的，一定是“泡茶话仙”啦。许多外乡人直说生活在厦门，会让人不由自主地慵懒起来。",
+          imageUrl: "img/xiamen/paochahuaxian.jpeg",
+        },
+        {
+          name: "“鹭芳”橙汁",
+          value: 232,
+          info: "现在已经很少能看到的鹭芳，却曾经在很长一段时间里都是厦门人心中没法取代的NO.1。经典的橘色包装，熟悉的橙子味，一口就能把人拉回几十年前的厦门。",
+          imageUrl: "img/xiamen/lufang.png",
+        },
+        {
+          name: "沙茶面",
+          value: 744,
+          info: "沙茶面是厦门的著名小吃，属于闽菜小吃。其美妙之处在于汤头，由沙茶酱熬制而成，汤色红亮，口感咸鲜香辣。汤底熬制得非常香和鲜甜，带有微辣和浓浓的芝麻酱味道。面则选用闽南的油面，烫熟后浇上沙茶汤，再根据个人口味添加豆制品、大肠、米血、腰花等佐料，最后淋上一小勺辣油。这道菜不仅好吃不腻，而且营养搭配合理，是到厦门旅游的必尝美食。",
+          imageUrl: "img/xiamen/shachamian.jpg",
+        },
+        {
+          name: "炸五香",
+          value: 212,
+          info: "炸五香是福建省的闽南风味传统小吃，起源于厦门、泉州和漳州等地。它主要由五花肉、马蹄、豆皮和洋葱等食材构成，经过油炸烹饪后，外观为褐色长条状，形似春卷。吃起来外焦里嫩，鲜香酥脆，润滑甜美，具有鲜嫩多汁、香浓软嫩的特点。",
+          imageUrl: "img/xiamen/zhawuxiang.jpg",
+        },
+        {
+          name: "芋包",
+          value: 168,
+          info: "芋包是厦门的传统名小吃，以芋头为皮，包裹各种馅料，如猪肉、虾仁、香菇、冬笋和荸荠等。这种美食在厦门老一辈人过年时是必吃的，与北方人过年吃水饺的习惯相似。刚蒸熟的芋包皮薄如纸，仿佛馅料都要冲破皮而出。食用时，搭配厦门特有的甜辣酱和沙茶酱，味道更佳。",
+          imageUrl: "img/xiamen/yubao.jpg",
+        },
+        {
+          name: "白鹭洲公园",
+          value: 242,
+          info: "白鹭洲公园，是厦门最大的公园之一。这里有着美丽的湖泊和绿树成荫的小道，还有着各种鸟类和动物。在这里散步和观鸟，是一种非常愉悦的体验。",
+          imageUrl: "img/xiamen/bailuzhougongyuan.jpg@h_1280",
+        }
+      );
+      // 小鸟的base64编码
+      //image =
+      //  "data:image/png;base64,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";
+      // 五角星图片
+      // 配置项和配置数据
+      //var maskImage = new Image();
+      //maskImage.src = image;
+      var option = {
+        tooltip: {
+          show: true,
+          formatter: function (params) {
+            return params.name + ": " + params.value;
+          },
+        },
+        title: {
+          text: "厦门词云图",
+          left: "center",
+          textStyle: {
+            // 文本样式
+            fontSize: 32, // 字体大小，你可以根据需要调整这个值
+            color: "#000", // 字体颜色，你也可以修改这个值
+          },
+        },
+        series: [
+          {
+            //maskImage: maskImage,
+            // 指定他的类型为wordCloud
+            type: "wordCloud",
+            // 设置字符大小范围
+            sizeRange: [20, 40],
+            rotationRange: [-45, 90],
+            textStyle: {
+              color: function () {
+                return (
+                  "rgb(" +
+                  Math.round(Math.random() * 160) +
+                  "," +
+                  Math.round(Math.random() * 160) +
+                  "," +
+                  Math.round(Math.random() * 160) +
+                  ")"
+                );
+              },
+            },
+            // 调用数据
+            data: jsonlist,
+          },
+        ],
+      };
+      // echarts的点击事件
+      mychart.on("click", function (params) {
+        // params 中包含了被点击项的信息
+        var infoTextElement = document.getElementById("info-text");
+        var infoImageElement = document.getElementById("info-image");
+
+        // 清除之前的图片（如果有的话）
+        infoImageElement.innerHTML = "";
+
+        // 使用 params 中的 name 来查找对应的额外信息
+        var selectedItem = jsonlist.find(function (item) {
+          return item.name === params.name;
+        });
+
+        if (selectedItem) {
+          // 显示选中的词语对应的额外信息
+          infoTextElement.innerHTML = selectedItem.info;
+          if (selectedItem.imageUrl) {
+            // 显示图片
+            var imgElement = document.createElement("img");
+            imgElement.src = selectedItem.imageUrl;
+            imgElement.alt = selectedItem.name;
+            infoImageElement.appendChild(imgElement);
+            imgElement.style.width = "650px";
+            imgElement.style.height = "400px";
+          } else {
+            infoImageElement.innerHTML = "";
+          }
+        } else {
+          // 如果没有找到对应项，可以清空或显示默认信息
+          infoTextElement.innerHTML = "未找到相关信息";
+        }
+      });
+      mychart.setOption(option);
+      // 调用设置选项
+      //maskImage.onload = function () {
+      //  mychart.setOption(option);
+      //};
+    </script>
+  </body>
+</html>
