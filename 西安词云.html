@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+    <script src="https://raw.gitcode.com/ecomfe/echarts-wordcloud/raw/master/dist/echarts-wordcloud.min.js"></script>
+    <title>xian_voc</title>
+    <style>
+      #wordcloud {
+        width: 50%;
+        height: 700px;
+        float: left;
+      }
+      #info-container {
+        margin-top: 20px;
+        display: flex;
+        justify-content: center; /* 水平居中 */
+        align-items: center; /* 垂直居中 */
+        flex-direction: row;
+      }
+
+      #info-text {
+        flex: 1;
+        max-width: 100%; /* 响应式，最大宽度为容器宽度 */
+        font-size: 20px;
+        text-align: center; /* 如果你想要文本在垂直堆叠时也居中 */
+      }
+
+      #info-image {
+        /* 注意：这里我们直接对 #info-image 应用样式，而不是 #info-image img */
+        max-width: 100%; /* 响应式，最大宽度为容器宽度 */
+        height: auto; /* 保持图片的原始纵横比 */
+        margin: 0 auto;
+      }
+    </style>
+  </head>
+  <body>
+    <center>
+      <div id="main" style="height: 600px; width: 800px"></div>
+      <div id="info-container">
+        <div id="info-text"></div>
+        <div id="info-image"></div>
+      </div>
+    </center>
+    <script type="text/javascript">
+      // 进行echarts的初始化，以及定位到画布
+      var mychart = echarts.init(document.getElementById("main"));
+      var jsonlist = [];
+      jsonlist.push(
+        {
+          name: "秦腔",
+          value: 1141,
+          info: "秦腔（Qinqiang Opera），别称“梆子腔”“陕西梆子” ，中国汉族最古老的戏剧之一，起于西周，源于西府[核心地区是陕西省宝鸡市的岐山（西岐）与凤翔（雍城）]。成熟于秦。国家级非物质文化遗产之一。",
+          imageUrl: "img/xian/qinqiang.jpeg",
+        },
+        {
+          name: "大雁塔",
+          value: 1335,
+          info: "大雁塔位于唐长安城晋昌坊（今陕西省西安市南）的大慈恩寺内，又名“慈恩寺塔”。唐永徽三年（652年），玄奘为保存由天竺经丝绸之路带回长安的经卷佛像主持修建了大雁塔，最初五层，后加盖至九层，再后层数和高度又有数次变更，最后固定为所看到的七层塔身，通高64.517米，底层边长25.5米。",
+          imageUrl: "img/xian/dayanta.jpg@h_1280",
+        },
+        {
+          name: "长安",
+          value: 4801,
+          info: "长安，是西安的古称，地处关中平原中部，素有“金城千里”、“天府之国”的美誉，是华夏文明的发祥地之一。继蓝田猿人、半坡氏族之后，在公元前11世纪至公元10世纪间，曾有13个朝代在此建都，西安与罗马、开罗、雅典并称为“世界四大古都”，是中国历史上建都朝代最多、建都时间最长、影响力最大的都城，是中华民族的摇篮、中华文化的杰出代表，居中国古都之首，也被赋予最早的东方世界之都。",
+          imageUrl: "img/xian/changan.jpg",
+        },
+        {
+          name: "球迷",
+          value: 162,
+          info: "",
+        },
+        {
+          name: "年轻人",
+          value: 413,
+          info: "",
+        },
+        {
+          name: "城中村",
+          value: 544,
+          info: "",
+        },
+        {
+          name: "城墙",
+          value: 1455,
+          info: "西安城墙建于明洪武七年到十一年（1374—1378年），是在唐代长安城皇城和元代奉元城基础上扩建而成。轮廓呈封闭长方形。墙高12米，底宽18米，顶宽15米，东墙长2590米，西墙长2631.2米，南墙长3441.6米，北墙长3241米，总周长11.9公里，是保存最完整的中国古代城垣建筑。",
+          imageUrl: "img/xian/chengqiang.webp",
+        },
+        {
+          name: "吃",
+          value: 3104,
+          info: "",
+        },
+        {
+          name: "博物馆",
+          value: 423,
+          info: "西安博物院，位于陕西省西安市碑林区友谊西路72号，总占地面积约16万平方米，建筑面积1.6万平方米，隶属西安市文物局，是一座集文物收藏、科学研究、社会教育、园林休闲为一体的地方综合性博物馆。",
+          imageUrl: "img/xian/bowuguan.jpg",
+        },
+        {
+          name: "面条",
+          value: 1058,
+          info: "",
+        },
+        {
+          name: "历史",
+          value: 210,
+          info: "",
+        },
+        {
+          name: "古墓",
+          value: 283,
+          info: "西安，作为中国的十三朝古都，其地下埋藏着大量的古墓。据统计，2020年陕西省发掘的古墓葬数量达到了3956座，涵盖了龙山时代、秦、隋唐等多个历史时期。",
+          imageUrl: "img/xian/gumu.webp",
+        },
+        {
+          name: "银杏",
+          value: 1423,
+          info: "",
+        },
+        {
+          name: "胡辣汤",
+          value: 1184,
+          info: "西安肉丸胡辣汤，是西安本地的特色小吃。主料有牛肉、圆白菜、胡萝卜、豆角、土豆，辅料有淀粉、花椒粉、五香粉、盐、料酒、鸡精、牛肉浓汤煲、葱姜等。",
+          imageUrl: "img/xian/hulatang.jpeg",
+        },
+        {
+          name: "肉夹馍",
+          value: 836,
+          info: "肉夹馍是中国传统特色食物之一。名字意为“肉馅的夹馍”。陕西地区有使用白吉馍的“腊汁肉夹馍”、宝鸡西府的肉臊子夹馍（肉臊子中放食醋）、潼关的潼关肉夹馍（与白吉馍不同，其馍外观焦黄，条纹清晰，内部呈层状，饼体发胀，皮酥里嫩，火功到家，食用时温度以烫手为佳，且老潼关肉夹馍是热馍夹凉肉，馍酥肉香，爽而不腻）。",
+          imageUrl: "img/xian/roujiamo.webp",
+        },
+        {
+          name: "凉皮",
+          value: 1123,
+          info: "凉皮，是起源于陕西的汉族传统美食，是擀面皮、面皮、米皮、酿皮的统称。其流行于中国北方地区，是不可多得的天然绿色无公害食品。因原料、制作方法、地域不同，有热米（面）皮、擀面皮、烙面皮、酿皮等。",
+          imageUrl: "img/xian/liangpi.jpg",
+        },
+        {
+          name: "古都",
+          value: 304,
+          info: "",
+        },
+        {
+          name: "街头乐队",
+          value: 201,
+          info: "越来越多的草根音乐人开始把西安城墙门洞当作舞台。去城墙下听歌，渐渐成为一些市民游客的新潮流。从最初与城管斗智斗勇、东躲西藏，到后来成为西安独有的文化现象，城墙见证了野生乐队同城市的和解与共生。",
+          imageUrl: "img/xian/yuedui.jpg",
+        },
+        {
+          name: "牛羊肉",
+          value: 154,
+          info: "",
+        },
+        {
+          name: "羊肉泡馍",
+          value: 505,
+          info: "羊肉泡馍，亦称羊肉泡，古称“羊羹”，关中汉族风味饭食，源自西周。它烹制精细，料重味醇，肉烂汤浓，肥而不腻，营养丰富，香气四溢，诱人食欲，食后回味无穷。北宋著名诗人苏轼留有“陇馔有熊腊，秦烹唯羊羹”的诗句。因它暖胃耐饥，素为陕西人民所喜爱，",
+          imageUrl: "img/xian/yangroupaomo.webp",
+        },
+        {
+          name: "葫芦鸡",
+          value: 130,
+          info: "葫芦鸡是陕西省西安市传统风味名菜，始于唐代。葫芦鸡的制作分清煮、蒸笼、油炸三道工序。制作时先放在清水中漂洗，除净血污，煮时用麻丝将鸡捆好，以保持鸡的整形，待锅内凉水烧沸，投入鸡，煮半小时取出，盛入盆内，添肉汤、料酒、精盐、酱油、葱、姜、八角、桂皮，入笼蒸透。油炸时，将菜籽油烧八成热投入蒸好的整鸡，用手勺拨动，至鸡是金黄色时，用漏勺捞出，沥油，随即盛盘中，上桌时另带小蝶花椒盐佐食。色泽金红，皮酥肉嫩，香烂味醇，筷到骨脱。含有丰富蛋白质和人体所需的饱和脂肪酸。",
+          imageUrl: "img/xian/huluji.jpg",
+        },
+        {
+          name: "油泼面",
+          value: 843,
+          info: "油泼面是陕西传统的特色面食之一，起源于明代，有鲜香味、酸辣味、香辣味。油泼面是一种很普通的面食制作方法，将手工制作的面条在开水中煮熟后捞在碗里，将葱花碎、花椒粉、盐等配料和厚厚一层的辣椒面一起平铺在面上，用烧的滚烫的菜油浇在调料上，顿时热油沸腾，将花椒面、辣椒面烫熟而满碗红光，随后调入适量酱油、香醋即可。也可另外加入腊汁肉、青椒土豆丝、青椒鸡蛋、西红柿鸡蛋等一起食用。",
+          imageUrl: "img/xian/youpomian.jpg",
+        },
+        {
+          name: "热",
+          value: 773,
+          info: "",
+        },
+        {
+          name: "冰峰",
+          value: 107,
+          info: "“冰峰汽水”饮料诞生于1948年，一名商人从天津引进汽水生产设备，在西安市东大街马厂子建成西安第一家汽水厂——西北汽水厂，生产“洋汽水”，后在西关正街成立了汽水车间，冰峰品牌由此诞生。",
+          imageUrl: "img/xian/bingfeng.jpg",
+        },
+        {
+          name: "高校",
+          value: 206,
+          info: "",
+        },
+        {
+          name: "秦始皇",
+          value: 2949,
+          info: "",
+        },
+        {
+          name: "青曲社",
+          value: 168,
+          info: "青曲社是位于陕西省西安市的一个相声社团，成立于2007年。社团名称蕴含“青云直上，曲故情长”的意思。主要成员为相声演员苗阜、王声。社团以西北老艺人（郑文喜、郑小山、张常泰、张常锁）为首，以收纳的年轻力量为主体，在老曲艺精髓的基础上开拓创新，已在国内占有一席之地。",
+          imageUrl: "img/xian/qingqushe.jpeg",
+        },
+        {
+          name: "白鹿原",
+          value: 3529,
+          info: "《白鹿原》是由刘进执导，张嘉益、何冰、秦海璐、刘佩琦、李洪涛、戈治均、雷佳音、翟天临、李沁、姬他、邓伦、王骁、孙铱领衔主演的年代剧。该剧以陕西关中平原上有“仁义村”之称的白鹿村为背景，讲述了白姓和鹿姓两大家族祖孙三代之间恩怨纷争的故事。",
+          imageUrl: "img/xian/bailuyuan.jpg",
+        },
+        {
+          name: "唐朝",
+          value: 3828,
+          info: "",
+        },
+        {
+          name: "关中八景",
+          value: 189,
+          info: "关中八景，所在地长安，又名长安八景，是八处关中地区著名的文物风景胜地。西安碑林中有一块碑石，用诗和画的形式描述了关中地区的锦绣河山。这块碑石刻于清康熙十九年 （公元1680年），作者朱集义，距今已有三百多年的历史。碑面书、画、诗为一体，分十六格，一景一画，即：华岳仙掌、骊山晚照、灞柳风雪、曲江流饮、雁塔晨钟、咸阳古渡、草堂烟雾、太白积雪。",
+          imageUrl: "img/xian/guanzhongbajing.jpg",
+        },
+        {
+          name: "兵马俑",
+          value: 3460,
+          info: "兵马俑，即秦始皇陵兵马俑，亦简称秦兵马俑或秦俑，是第一批全国重点文物保护单位、第一批中国世界遗产，位于今陕西省西安市临潼区秦始皇陵以东1.5千米处的兵马俑坑内。先后有200多位外国元首和政府首脑参观访问，成为中国古代辉煌文明的一张金字名片，又被誉为世界十大古墓稀世珍宝之一。",
+          imageUrl: "img/xian/bingmayong.webp",
+        },
+        {
+          name: "大唐芙蓉园",
+          value: 779,
+          info: "大唐芙蓉园，位于陕西省西安市雁塔区大雁塔东南侧，占地面积1000亩，其中水域面积300亩。大唐芙蓉园是在原唐代芙蓉园遗址以北，仿照唐代皇家园林式样重新建造的，是中国第一个全方位展示盛唐风貌的大型皇家园林式文化主题公园。",
+          imageUrl: "img/xian/datangfurongyuan.jpg",
+        },
+        {
+          name: "华清宫",
+          value: 656,
+          info: "唐华清宫，是唐代封建帝王游幸的别宫。后也称“华清池”，位于陕西省西安市临潼区。华清宫背山面渭，倚骊峰山势而筑，规模宏大，建筑壮丽，楼台馆殿，遍布骊山上下。初名“汤泉宫”，后改名温泉宫。唐玄宗更华清宫，因在骊山，又叫骊山宫，亦称骊宫、绣岭宫。",
+          imageUrl: "img/xian/huaqinggong.jpg",
+        },
+        {
+          name: "钟楼",
+          value: 451,
+          info: "西安钟楼位于西安市中心，明城墙内东西南北四条大街的交汇处，是中国现存钟楼中形制最大、保存最完整的一座。建于明太祖洪武十七年（1384年），初建于今广济街口，与鼓楼相对，明神宗万历十年（1582年）整体迁移于今址。",
+          imageUrl: "img/xian/zhonglou.jpeg",
+        },
+        {
+          name: "鼓楼",
+          value: 289,
+          info: "西安鼓楼，位于古都西安市中心，明城墙内东西南北四条大街交汇处的西安钟楼西北方约200米处。建于明太祖朱元璋洪武十三年（1380年），是中国古代遗留下来众多鼓楼中形制最大、保存最完整鼓楼之一。",
+          imageUrl: "img/xian/gulou.webp",
+        },
+        {
+          name: "大唐不夜城",
+          value: 1345,
+          info: "大唐不夜城步行街，位于陕西省西安市雁塔区的大雁塔脚下，始建于2002年8月，北起大雁塔北广场，南至开元广场，东起慈恩东路，西至慈恩西路，街区南北长2100米，东西宽500米，总建筑面积65万平方米，是全国唯一一个以盛唐文化为背景的大型仿唐建筑群步行街，为西安地标性景区。大唐不夜城步行街，位于陕西省西安市雁塔区的大雁塔脚下，始建于2002年8月，北起大雁塔北广场，南至开元广场，东起慈恩东路，西至慈恩西路，街区南北长2100米，东西宽500米，总建筑面积65万平方米，是全国唯一一个以盛唐文化为背景的大型仿唐建筑群步行街，为西安地标性景区。",
+          imageUrl: "img/xian/datangbuyecheng.jpg",
+        }
+      );
+      // 小鸟的base64编码
+      //image =
+      //  "data:image/png;base64,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";
+      // 五角星图片
+      // 配置项和配置数据
+      //var maskImage = new Image();
+      //maskImage.src = image;
+      var option = {
+        tooltip: {
+          show: true,
+          formatter: function (params) {
+            return params.name + ": " + params.value;
+          },
+        },
+        title: {
+          text: "西安词云图",
+          left: "center",
+          textStyle: {
+            // 文本样式
+            fontSize: 32, // 字体大小，你可以根据需要调整这个值
+            color: "#000", // 字体颜色，你也可以修改这个值
+          },
+        },
+        series: [
+          {
+            //maskImage: maskImage,
+            // 指定他的类型为wordCloud
+            type: "wordCloud",
+            // 设置字符大小范围
+            sizeRange: [20, 40],
+            rotationRange: [-45, 90],
+            textStyle: {
+              color: function () {
+                return (
+                  "rgb(" +
+                  Math.round(Math.random() * 160) +
+                  "," +
+                  Math.round(Math.random() * 160) +
+                  "," +
+                  Math.round(Math.random() * 160) +
+                  ")"
+                );
+              },
+            },
+            // 调用数据
+            data: jsonlist,
+          },
+        ],
+      };
+      // echarts的点击事件
+      mychart.on("click", function (params) {
+        // params 中包含了被点击项的信息
+        var infoTextElement = document.getElementById("info-text");
+        var infoImageElement = document.getElementById("info-image");
+
+        // 清除之前的图片（如果有的话）
+        infoImageElement.innerHTML = "";
+
+        // 使用 params 中的 name 来查找对应的额外信息
+        var selectedItem = jsonlist.find(function (item) {
+          return item.name === params.name;
+        });
+
+        if (selectedItem) {
+          // 显示选中的词语对应的额外信息
+          infoTextElement.innerHTML = selectedItem.info;
+          if (selectedItem.imageUrl) {
+            // 显示图片
+            var imgElement = document.createElement("img");
+            imgElement.src = selectedItem.imageUrl;
+            imgElement.alt = selectedItem.name;
+            infoImageElement.appendChild(imgElement);
+            imgElement.style.width = "650px";
+            imgElement.style.height = "400px";
+          } else {
+            infoImageElement.innerHTML = "";
+          }
+        } else {
+          // 如果没有找到对应项，可以清空或显示默认信息
+          infoTextElement.innerHTML = "未找到相关信息";
+        }
+      });
+      mychart.setOption(option);
+      // 调用设置选项
+      //maskImage.onload = function () {
+      //  mychart.setOption(option);
+      //};
+    </script>
+  </body>
+</html>
