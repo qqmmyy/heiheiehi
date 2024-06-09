@@ -6,8 +6,8 @@
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
 </head>
-<body style="background-color: rgba(240,248,255,0.5)">
-    <div id="chengdu" style="width: 600px;height:600px;margin:0"></div>
+<body >
+    <div id="chengdu" style="width: 700px;height:700px;margin:0"></div>
     <script type="text/javascript">
        var myChart = echarts.init(document.getElementById('chengdu'));   
     // 指定图表的配置项和数据
@@ -27,7 +27,7 @@
                      map: 'chengdu',
                      selectedMode: 'multiple',
                     },
-   visualMap: {
+    visualMap: {
         seriesIndex: 0,
           show:false,
           min: 1,
@@ -74,7 +74,7 @@
 
           ],   
           },
-         {
+          {
                       name: '标记点',
                       type: 'effectScatter',
                       coordinateSystem: 'geo',
@@ -107,6 +107,8 @@
           formatter:  function(params) {
         return params.data.tooltipContent; // 根据数据点的tooltipContent属性返回悬浮框内容
     },
+          
+      },
       toolbox: {
           show: true,
           orient: 'vertical',
