@@ -65,32 +65,36 @@
 
           ],   
           },
-          // {
-          //             name: '标记点',
-          //             type: 'effectScatter',
-          //             coordinateSystem: 'geo',
-          //             data: [
-          //               {name: '锦里古街', value:[104,30.6], tooltipContent: '这里是锦里古街'},
-          //               {name: '人民公园', value:[104,30.4], tooltipContent: '欢迎来到人民公园'},
-          //               {name: '熊猫基地', value:[104.14469,30.737297], tooltipContent: '这里有可爱的熊猫'},
-          //               {name: '都江堰', value:[103.608743,31.001635], tooltipContent: '都江堰是一处古代水利工程'},
-          //               ],
-          //             label:{
-          //               formatter: '{b}',
-          //               show:true,
-          //               position: 'right',
-          //             },
+          {
+                      name: '标记点',
+                      type: 'effectScatter',
+                      coordinateSystem: 'geo',
+                      data: [
+                        {name: '维度酒店(广州北京路步行街越秀公园店)', value:[113.26562100000001,23.140152000000025], tooltipContent: '维度酒店(广州北京路步行街越秀公园店)位于广州，配有空调住宿，距离越秀公园有14分钟步行路程<br/>评分：8.7<br/>地址：越秀区环市中路268号 '},
+                        {name: '東枫酒店公寓（广州金融城三溪地铁站店）', value:[113.413229,23.102733999999998], tooltipContent: '東枫酒店公寓（广州金融城三溪地铁站店）坐落于广州，配备免费WiFi，享有市景，距离广东奥林匹克<br/>体育中心有5.1公里，距离广交会有11公里。<br/>评分：9.1<br/>地址：天河区黄埔大道珠光金融城壹号11栋106商铺'},
+                        {name: '广州保利假日酒店', value:[113.45798500000001,23.165285000000015], tooltipContent: '广州保利假日酒店位于广州科学城，这里是广州高新技术产业开发区的核心科技中心。该地区有众多国内外投资项目。<br/>从科学城出发，酒店客人只需20分钟车程即可轻松抵达天河区商务中心、琶洲国际会展中心和广州火车东站。<br/>评分：8.4<br/>地址：黄埔区科学城揽月路99号'},
+                        {name: '广州番禺大石智选假日酒店', value:[113.32235800000001,23.015919000000014], tooltipContent: '广州番禺大石智选假日酒店位于广州，距离长隆欢乐世界有4.2公里，提供健身中心、免费私人停车位和餐厅。<br/>评分：9.4<br/>地址：番禺区大石街道新置路29号'},
+                        {name: '广州广交会威斯汀酒店', value:[113.32914119826137,23.124532740945117], tooltipContent: '广州广交会威斯汀酒店位于广交会展馆的C区，方便客人直达广州国际会议展览中心，<br/>距离保利世贸博览馆仅有数步之遥，距离琶洲地铁站有5分钟步行路程，<br/>设有宽敞的客房、室内恒温游泳池和Spa。<br/>评分：9.4<br/>地址：海珠区, 凤浦中路681号广交会展馆C区 '},
+                        {name: '广州机场空港希尔顿花园酒店', value:[113.31664499999988,23.425759000000003], tooltipContent: '广州机场空港希尔顿花园酒店位于花都，距离越秀公园站有38公里，提供健身中心、免费私人停车位和餐厅。<br/>评分：8.5<br/>地址：花都区花东镇九一村空港大道9号B3栋'},
+                        
+                        ],
+                      label:{
+                        formatter: '{b}',
+                        show:true,
+                        position: 'right',
+                      },
     
-          //             symbolSize: 15,
-          //             color:'#FFA54F',
-          //             visualMap:false
+                      symbolSize: 15,
+                      color:'#FFA54F',
+                      visualMap:false
                       
                       
-          //   },
+            },
       ],
     
       tooltip: {
           trigger: 'item',
+          position:'bottom',
           formatter:  function(params) {
         return params.data.tooltipContent; // 根据数据点的tooltipContent属性返回悬浮框内容
     },
