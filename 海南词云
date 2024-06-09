@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+    <script src="https://raw.gitcode.com/ecomfe/echarts-wordcloud/raw/master/dist/echarts-wordcloud.min.js"></script>
+    <title>hainan_voc</title>
+    <style>
+      #wordcloud {
+        width: 50%;
+        height: 700px;
+        float: left;
+      }
+      #info-container {
+        margin-top: 20px;
+        display: flex;
+        justify-content: center; /* 水平居中 */
+        align-items: center; /* 垂直居中 */
+        flex-direction: row;
+      }
+
+      #info-text {
+        flex: 1;
+        max-width: 100%; /* 响应式，最大宽度为容器宽度 */
+        font-size: 20px;
+        text-align: center; /* 如果你想要文本在垂直堆叠时也居中 */
+      }
+
+      #info-image {
+        /* 注意：这里我们直接对 #info-image 应用样式，而不是 #info-image img */
+        max-width: 100%; /* 响应式，最大宽度为容器宽度 */
+        height: auto; /* 保持图片的原始纵横比 */
+        margin: 0 auto;
+      }
+    </style>
+  </head>
+  <body>
+    <center>
+      <div id="main" style="height: 600px; width: 800px"></div>
+      <div id="info-container">
+        <div id="info-text"></div>
+        <div id="info-image"></div>
+      </div>
+    </center>
+    <script type="text/javascript">
+      // 进行echarts的初始化，以及定位到画布
+      var mychart = echarts.init(document.getElementById("main"));
+      var jsonlist = [];
+      jsonlist.push(
+        {
+          name: "椰雕",
+          value: 220,
+          info: "椰雕（海南椰雕），海南省海口市的传统美术，国家级非物质文化遗产之一。唐代即已出现关于海南椰雕的记载，明清时期椰雕被作为珍品进贡朝廷，赢得“天南贡品”之誉。20世纪中叶以来，椰雕技艺在继承传统的基础上又有了新的提高。椰雕（海南椰雕）一般经过设计、选材、开料、雕镂、造胎（铜或锡质等）、镶嵌、修饰或打磨、上漆或贴金、装饰（配套）等工序。",
+          imageUrl: "img/hainan/yediao.jpg",
+        },
+        {
+          name: "晒",
+          value: 730,
+          info: "",
+        },
+        {
+          name: "台风",
+          value: 324,
+          info: "",
+        },
+        {
+          name: "过不完的夏天",
+          value: 441,
+          info: "",
+        },
+        {
+          name: "黎族文化",
+          value: 63,
+          info: "黎族是海南第一大民族，他们有自己的民族服装，会唱黎族歌曲，跳黎族特色舞蹈，老一辈的黎族人还有自己的织布文化。",
+          imageUrl: "img/hainan/lizu.jpg",
+        },
+        {
+          name: "槟榔",
+          value: 2178,
+          info: "海南人为何这么爱吃槟榔，恐怕依旧是个未解之谜。三亚街头，不论男女老少，嘴里嚼的多半是槟榔，酒席上也经常能见到槟榔的身影。",
+          imageUrl: "img/hainan/binglang.jpg",
+        },
+        {
+          name: "槟榔谷",
+          value: 234,
+          info: "槟榔谷因其两边森林层峦叠嶂，中间是一条延绵数公里的槟榔谷地而得名，但槟榔谷远远不止槟榔：实景演出、风味美食街、民宿、农家乐、文化部落体验区，是谓风情万种。",
+          imageUrl: "img/hainan/binglanggu.jpg",
+        },
+        {
+          name: "热带水果",
+          value: 497,
+          info: "",
+        },
+        {
+          name: "海鲜",
+          value: 989,
+          info: "",
+        },
+        {
+          name: "抱罗粉",
+          value: 145,
+          info: "海南著名地方风味小吃，以大米粉条配靓汤及多种佐料调制而成。因文昌县抱罗饭所产最出名而得此名，又因其粉身比“海南扮”略粗，故琼北各地又称之为“粗粉汤”。",
+          imageUrl: "img/hainan/baoluofen.jpg",
+        },
+        {
+          name: "鸡屎藤",
+          value: 881,
+          info: "鸡屎藤是一种南方的特色植物，具有补气补血之功效，还可以清热并且气味香醇。海南地区鸡屎藤糖水，会用鸡屎藤汁和米粉混合揉成小条，煮好捞起，搭配上鸡蛋、红枣、红糖等一起煮，非常的滋补，女人多喝非常好。",
+          imageUrl: "img/hainan/jishiteng.webp",
+        },
+        {
+          name: "清补凉",
+          value: 667,
+          info: "海南清补凉是一道清爽可口的传统甜品，它由糯米粉、绿豆、椰浆、椰糖、红豆、糖水等原料制成。首先将绿豆和红豆煮熟，然后与糯米粉一起制成小圆球，再放入椰浆和糖水中，最后撒上椰丝或嫩椰子肉点缀即可。清凉爽口，甜而不腻，是夏日消暑的理想选择。",
+          imageUrl: "img/hainan/qingbuliang.png",
+        },
+        {
+          name: "老爸茶",
+          value: 328,
+          info: "老爸茶，是海南海口市的特色茶文化，老爸老妈子们相聚在一起喝茶。是海口市的一道风景，一壶茶，一碟花生，或一二个面包，陈旧的桌凳，围着三两个打扮朴素的茶客，闲闲静静地 “吃”着茶。",
+          imageUrl: "img/hainan/laobacha.jpg",
+        },
+        {
+          name: "节奏悠闲",
+          value: 481,
+          info: "",
+        },
+        {
+          name: "南山寺",
+          value: 456,
+          info: "南山寺，位于海南省三亚市以西40公里南山文化旅游区内的“佛教文化公园”中。据史志所载，三亚南山即菩萨长居之“补怛洛迦”，有“大光明山”之称，三亚南山寺占地400亩，仿唐风格，建有仁王殿、大雄宝殿、东西配殿、钟鼓楼、转轮藏、法堂、观音院、悲田院等，依山就势，错落有致，庄严肃穆，清净幽雅。",
+          imageUrl: "img/hainan/nanshansi.jpg",
+        },
+        {
+          name: "大东海",
+          value: 223,
+          info: "大东海位于三亚市的榆林港和鹿回头之间。三亚大东海旅游景区被评为4A级景区，成为三亚首家零收费开放式景区。大东海是三亚的一处标志，被国家旅游局评为“中国四十佳景”之一。",
+          imageUrl: "img/hainan/dadonghai.jpg",
+        },
+        {
+          name: "天涯海角",
+          value: 1128,
+          info: "天涯海角游览区位于海南省三亚市西南方向，位于三亚湾和红塘湾之间的岬角上。总面积为16.4平方千米，其中陆域面积10.4平方千米，海域面积为6平方千米。因景区两块巨石分别刻有“天涯”、“海角”及郭沫若先生题写的“天涯海角游览区”而得名。",
+          imageUrl: "img/hainan/tianyahaijiao.jpg",
+        },
+        {
+          name: "亚龙湾",
+          value: 521,
+          info: "亚龙湾是中华人民共和国海南省三亚市东郊的一处优质热带海滨风景区，沙滩平缓开阔，沙粒洁白细软，海水清澈澄莹，海底资源丰富，生长众多原始热带植被，颇具热带海岛风情。海湾距离市中心区约10公里，以野猪岛为中心，南有东洲岛、西洲岛，西面有东排、西排，可开展多种水上运动。",
+          imageUrl: "img/hainan/yalongwan.jpg",
+        },
+        {
+          name: "蜈支洲岛",
+          value: 840,
+          info: "蜈支洲岛坐落在海南省三亚市北部的海棠湾内，北面与南湾猴岛遥遥相对，南邻美誉天下第一湾的亚龙湾。蜈支洲岛距海岸线2.7公里，方圆1.48平方公里，呈不规则的蝴蝶状，东西长1400米，南北宽1100米。距三亚市30公里，凤凰机场38公里，紧靠海口至三亚的高速公路，位置优越，交通便利。蜈支洲岛是海南岛周围为数不多的有淡水资源和丰富植被的小岛，有二千多种植物，种类繁多。",
+          imageUrl: "img/hainan/wuzhizhoudao.jpg",
+        },
+        {
+          name: "大小洞天",
+          value: 259,
+          info: "大小洞天旅游区，古称鳌山大小洞天，位于海南省三亚市以西40千米处的南山西北面，介于东经109°09′—109°13′，北纬18°17′—18°19′之间，总面积22.5平方千米，是以“洞天福地、海山奇观”为脉络，以道家文化、长寿文化、南海龙文化为主线，融婚庆服务、科普研学、滨海休闲、空中游览、海上体验为一体的综合性旅游区。",
+          imageUrl: "img/hainan/daxiaodongtian.jpg",
+        },
+        {
+          name: "椰梦长廊",
+          value: 231,
+          info: "椰梦长廊 [1]是环三亚湾修建的一条著名的海滨风景大道，有“亚洲第一大道”之称。三亚湾滨海大道——“椰梦长廊”与三亚市区连接，交通便利。其沙滩坡度平缓，曲线优美，海水清澈见底。冬可避寒、夏能消暑，是以热带海洋风光，中国传统文化、南国民族风情为特点的国际一流避寒和休闲度假胜地。",
+          imageUrl: "img/hainan/yemengchanglang.jpg",
+        },
+        {
+          name: "椰子树",
+          value: 772,
+          info: "",
+        },
+        {
+          name: "黑龙江省三亚市",
+          value: 146,
+          info: "",
+        },
+        {
+          name: "凤凰花",
+          value: 881,
+          info: "每年6月，是凤凰花正盛的时候。鲜红或橙色的花朵配合鲜绿色的羽状复叶，装点了三亚的街道。",
+          imageUrl: "img/hainan/fenghuanghua.jpg",
+        },
+        {
+          name: "酸橘子",
+          value: 72,
+          info: "如果你在三亚吃火锅，你会发现一个神奇的现象：这里的醋几乎都是用它代替。三亚人喜欢这样做，因为除了保留醋的酸味，还有果味的清香。",
+          imageUrl: "img/hainan/suanjuzi.avif",
+        },
+        {
+          name: "海南粉",
+          value: 117,
+          info: "海南粉是海南特色美食之一，是一道口感细腻、清淡可口的传统米粉类食品。它以优质的大米为原料，经过研磨、发酵、蒸制等工序制成。海南粉多味浓香，柔润爽滑，刺激食欲，故多吃而不腻，爱吃辣的加一点辣椒酱则更起味，加上老抽、蒜泥、花生油、或芝麻油、煮熟的黑豆芽、牛肉丝、炸鱿鱼丝、油炸花生米、炒芝麻仁末、脆炸面片、碎香菜 、竹笋 及酸菜等辅料，拌制而成，越吃越香的那种。",
+          imageUrl: "img/hainan/hainanfen.webp",
+        },
+        {
+          name: "薏粑",
+          value: 103,
+          info: "薏粑，椰子粑粑，糯米粑粑。薏粑口感软糯，带有椰子的香甜味，香软可口，深受当地居民和游客的喜爱。常见于海南的街边小吃摊点，是一道让人垂涎欲滴的美味佳肴。在民间制作相当普遍，其象征着喜庆、吉祥、幸福，甜蜜、情谊。",
+          imageUrl: "img/hainan/yiba.jpeg",
+        },
+        {
+          name: "陵水酸粉",
+          value: 111,
+          info: "海南陵水酸粉是海南省的一种特色小吃，酸辣甜香，佐料丰富，味道极其鲜美，令人回味无穷。酸粉里会添加沙虫干、鱼饼、小咸鱼、鱿鱼丝等海产品，而且用来拌粉的调料酱汤也添加了食醋浓稠的酸香料汁，配上海南的特色黄灯笼椒一起吃，真的一口一口停不下嘴来。",
+          imgElement: "img/hainan/lingshuisuanfen.png",
+        },
+        {
+          name: "芒果肠粉",
+          value: 79,
+          info: "芒果肠粉是海南的一道特色美食，是由芒果制作成的一种肠粉，主要原料椰浆、芒果等，配料有细砂糖等。海南的芒果肠粉兴起于海南琼海。爽滑嫩的粉皮，包裹着甜糯多汁的芒果果肉，然后淋上一层浓郁的芒果酱汁。",
+          imageUrl: "img/hainan/mangguochangfen.webp",
+        },
+        {
+          name: "猪肠粑",
+          value: 60,
+          info: "猪肠粑是一道海南的特色小吃，主要在万宁市地区开始兴起，这种小吃因其形状类似猪肠而得名。猪肠粑通常由糯米和椰子为主要原料制作，有时还会加入红糖、花生等馅料，吃起来很香，跟椰子粑粑是类似的。",
+          imageUrl: "img/hainan/zhuchangba.webp",
+        },
+        {
+          name: "椰浆斑斓糕",
+          value: 163,
+          info: "椰浆斑斓糕是海南特色传统糕类小吃之一，很多早茶店、海南糕点店里都有这道小吃，其主要配料斑斓叶的汁，是一种热带草本植物，其汁液深绿，有特殊的斑斓香味。归侨群众喜欢用斑斓叶配制食品，搭配上椰浆和红薯粉叠加蒸熟的千层斑斓糕，此糕最负盛名。",
+          imageUrl: "img/hainan/yejiangbanlangao.webp",
+        },
+        {
+          name: "白切文昌鸡",
+          value: 440,
+          info: "白切文昌鸡是文昌鸡、葱门、香叶为主料的菜品。",
+          imageUrl: "img/hainan/wenchangji.jpg",
+        },
+        {
+          name: "椰子鸡",
+          value: 586,
+          info: "椰子鸡是一道色香味俱全的汉族名肴，属于海南菜。用椰子和嫩鸡蒸煮而成。椰子汁的风味独特，既有荸荠的味道，又在甜中带有椰香，具有解渴去暑，生津利尿之功效，多用于治疗中暑或发高烧等热病；而椰子鸡菜品中的仔鸡性平不燥，与椰子汁相融，补中有清，风味独特，共成益气生津，清热补虚之剂；适用于年老体衰，疲倦无力，烦热口渴等症。",
+          imageUrl: "img/hainan/yeziji.jpg",
+        },
+        {
+          name: "椰丝糯米粑",
+          value: 54,
+          info: "椰丝糯米粑是海南常见的风味小吃，主料是用糯米粉做皮，填以新鲜椰肉丝、芝麻、碾碎的炒花生、白糖等配成的馅，以野菠萝叶包成5厘米左右大小的圆粑，蒸熟趁热吃。海南地方传统小吃。民间制法因地而异。但都须以粘米浆、白萝卜丝为主料，其它辅料可随意变换，可筒，可繁，可蒸，可煎。也可先蒸后煎而食。",
+          imageUrl: "img/hainan/yesinuomiba.jpg",
+        },
+        {
+          name: "琼戏",
+          value: 129,
+          info: "琼剧，又称琼州剧、海南戏，海南省海口市、定安县等地方传统戏剧，是闽南语系的传统地方戏剧之一 [16]，国家级非物质文化遗产之一。",
+          imageUrl: "img/hainan/qiongxi.jpg",
+        },
+        {
+          name: "五指山",
+          value: 861,
+          info: "五指山，位于海南岛中部，峰峦起伏成锯齿状，形似五指，故得名，是海南第一高山，是海南岛的象征，也是中国名山之一，被国际旅游组织列为A级旅游点。远眺五指山，只见林木苍翠，白云缭绕，绿山盘旋而上峰巅，顿觉云从脚下生，人在太空游。",
+          imageUrl: "img/hainan/wuzhishan.jpg",
+        }
+      );
+      // 小鸟的base64编码
+      //image =
+      //  "data:image/png;base64,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";
+      // 五角星图片
+      // 配置项和配置数据
+      //var maskImage = new Image();
+      //maskImage.src = image;
+      var option = {
+        tooltip: {
+          show: true,
+          formatter: function (params) {
+            return params.name + ": " + params.value;
+          },
+        },
+        title: {
+          text: "海南词云图",
+          left: "center",
+          textStyle: {
+            // 文本样式
+            fontSize: 32, // 字体大小，你可以根据需要调整这个值
+            color: "#000", // 字体颜色，你也可以修改这个值
+          },
+        },
+        series: [
+          {
+            //maskImage: maskImage,
+            // 指定他的类型为wordCloud
+            type: "wordCloud",
+            // 设置字符大小范围
+            sizeRange: [20, 40],
+            rotationRange: [-45, 90],
+            textStyle: {
+              color: function () {
+                return (
+                  "rgb(" +
+                  Math.round(Math.random() * 160) +
+                  "," +
+                  Math.round(Math.random() * 160) +
+                  "," +
+                  Math.round(Math.random() * 160) +
+                  ")"
+                );
+              },
+            },
+            // 调用数据
+            data: jsonlist,
+          },
+        ],
+      };
+      // echarts的点击事件
+      mychart.on("click", function (params) {
+        // params 中包含了被点击项的信息
+        var infoTextElement = document.getElementById("info-text");
+        var infoImageElement = document.getElementById("info-image");
+
+        // 清除之前的图片（如果有的话）
+        infoImageElement.innerHTML = "";
+
+        // 使用 params 中的 name 来查找对应的额外信息
+        var selectedItem = jsonlist.find(function (item) {
+          return item.name === params.name;
+        });
+
+        if (selectedItem) {
+          // 显示选中的词语对应的额外信息
+          infoTextElement.innerHTML = selectedItem.info;
+          if (selectedItem.imageUrl) {
+            // 显示图片
+            var imgElement = document.createElement("img");
+            imgElement.src = selectedItem.imageUrl;
+            imgElement.alt = selectedItem.name;
+            infoImageElement.appendChild(imgElement);
+            imgElement.style.width = "650px";
+            imgElement.style.height = "400px";
+          } else {
+            infoImageElement.innerHTML = "";
+          }
+        } else {
+          // 如果没有找到对应项，可以清空或显示默认信息
+          infoTextElement.innerHTML = "未找到相关信息";
+        }
+      });
+      mychart.setOption(option);
+      // 调用设置选项
+      //maskImage.onload = function () {
+      //  mychart.setOption(option);
+      //};
+    </script>
+  </body>
+</html>
