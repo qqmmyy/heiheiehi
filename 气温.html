@@ -54,7 +54,7 @@
         <div id="app">
             <div class="search-container">
                 <input type="text" v-model="cityName" class="search-input" placeholder="输入城市名称">
-                <input type="text" v-model="year" class="search-input" placeholder="输入年份(21-23)">
+                <input type="text" v-model="year" class="search-input" placeholder="输入年份(2021-2023)">
                 <button @click="searchCity" class="search-button">搜索</button>
             </div>
             
@@ -249,11 +249,25 @@
                     {
                         "name": "AQI",
                         "type": "line",
+                        "itemStyle" : {  
+                                normal : {  
+                                    lineStyle:{  
+                                        color:'#e6e6fa'  
+                                    }  
+                                }  
+                            },  
                         "data": aqiData[cityYear]["AQI"]
                     },
                     {
                         "name": "PM2.5",
                         "type": "line",
+                        "itemStyle" : {  
+                                normal : {  
+                                    lineStyle:{  
+                                        color:'#f8f8ff'  
+                                    }  
+                                }  
+                            },  
                         "data": aqiData[cityYear]["PM2.5"]
                     }
                 ],
@@ -290,11 +304,25 @@
                     {
                         "name": "最高气温",
                         "type": "line",
+                        "itemStyle" : {  
+                                normal : {  
+                                    lineStyle:{  
+                                        color:'#FFE4E1'  
+                                    }  
+                                }  
+                            },  
                         "data": cityData[cityYear]["最高气温"]
                     },
                     {
                         "name": "最低气温",
                         "type": "line",
+                         "itemStyle" : {  
+                                normal : {  
+                                    lineStyle:{  
+                                        color:'	#E1FFFF'  
+                                    }  
+                                }  
+                            },  
                         "data": cityData[cityYear]["最低气温"]
                     }
                 ],
