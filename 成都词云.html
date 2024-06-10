@@ -8,7 +8,7 @@
     <title>chengdu_voc</title>
     <style>
       @font-face {
-         font-family: "MyFont";
+         font-family: 'MyFont';
          src: url("fonts/ChillLongCangKaiShu_Regular.0b77245d.otf");}
       #wordcloud {
         width: 50%;
@@ -28,7 +28,7 @@
         flex: 1;
         max-width: 100%; /* 响应式，最大宽度为容器宽度 */
         font-size: 20px;
-        font-family：MyFont;
+        font-family：'MyFont';
         text-align: center; /* 如果你想要文本在垂直堆叠时也居中 */
       }
 
@@ -262,6 +262,7 @@
             sizeRange: [20, 40],
             rotationRange: [-45, 90],
             textStyle: {
+              font-family: 'MyFont';
               color: function () {
                 return (
                   "rgb(" +
