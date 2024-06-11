@@ -7,23 +7,29 @@
     <script src="https://raw.gitcode.com/ecomfe/echarts-wordcloud/raw/master/dist/echarts-wordcloud.min.js"></script>
     <title>xiamen_voc</title>
     <style>
+      @font-face {
+        font-family: MyFont;
+        src: url(fonts/ChillLongCangKaiShu_Regular.0b77245d.otf);
+      }
       #wordcloud {
         width: 50%;
         height: 700px;
         float: left;
       }
       #info-container {
-        margin-top: 20px;
+        /*         margin-top: -30px; */
         display: flex;
         justify-content: center; /* 水平居中 */
         align-items: center; /* 垂直居中 */
-        flex-direction: row;
+        flex-direction: column;
+        padding: 10px;
       }
 
       #info-text {
+        font-family: "MyFont";
         flex: 1;
         max-width: 100%; /* 响应式，最大宽度为容器宽度 */
-        font-size: 20px;
+        font-size: 25px;
         text-align: center; /* 如果你想要文本在垂直堆叠时也居中 */
       }
 
@@ -31,7 +37,7 @@
         /* 注意：这里我们直接对 #info-image 应用样式，而不是 #info-image img */
         max-width: 100%; /* 响应式，最大宽度为容器宽度 */
         height: auto; /* 保持图片的原始纵横比 */
-        margin: 0 auto;
+        margin-bottom: 10px;
       }
     </style>
   </head>
@@ -222,6 +228,7 @@
           left: "center",
           textStyle: {
             // 文本样式
+            fontFamily: "MyFont",
             fontSize: 32, // 字体大小，你可以根据需要调整这个值
             color: "#000", // 字体颜色，你也可以修改这个值
           },
@@ -235,6 +242,7 @@
             sizeRange: [20, 40],
             rotationRange: [-45, 90],
             textStyle: {
+              fontFamily: "MyFont",
               color: function () {
                 return (
                   "rgb(" +
