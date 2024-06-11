@@ -21,6 +21,9 @@ myChart.setOption(
   option = {
   title: {
       text: '中国地图',
+      subtext: 'Data from wikipedia and baidu',
+      sublink:
+      'http://zh.wikipedia.org/wiki/%E9%A6%99%E6%B8%AF%E8%A1%8C%E6%94%BF%E5%8D%80%E5%8A%83#cite_note-12'
   },
 
   geo: {
@@ -29,7 +32,7 @@ myChart.setOption(
                  map: 'china',
                  selectedMode: 'multiple',
                 },
- visualMap: {
+  visualMap: {
     seriesIndex: 0,
     show:false,
       min: 95,
@@ -121,7 +124,7 @@ myChart.setOption(
           formatter:  function(params) {
         return params.data.tooltipContent; // 根据数据点的tooltipContent属性返回悬浮框内容
     },
-  },
+            },
   toolbox: {
       show: true,
       orient: 'vertical',
@@ -146,19 +149,19 @@ myChart.on('click', function(params) {
             window.parent.chart.location.href = '成都词云.html';
           } 
           else if (name === '海南') {
-            window.parent.city.location.href = '海南地图.html';
+            window.location.href = '海南地图.html';
             window.parent.chart.location.href = '海南词云.html';
           }
           else if (name === '广州') {
-            window.parent.city.location.href = '广州地图.html';
+            window.location.href = '广州地图.html';
             window.parent.chart.location.href = '广州词云.html';
           }
-          else if (name === '厦门') {
-            window.parent.city.location.href = '厦门地图.html';
+          else if (name === '散厦门') {
+            window.location.href = '厦门地图.html';
             window.parent.chart.location.href = '厦门词云.html';
           }
           else if (name === '西安') {
-            window.parent.city.location.href = '西安地图.html';
+            window.location.href = '西安地图.html';
             window.parent.chart.location.href = '西安词云.html';
           }
         }
