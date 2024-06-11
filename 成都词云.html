@@ -3,47 +3,47 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-   <script type="text/javascript" src="https://assets.pyecharts.org/assets/v5/echarts.min.js"></script>
-            <script type="text/javascript" src="https://assets.pyecharts.org/assets/v5/echarts-wordcloud.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+    <script src="https://raw.gitcode.com/ecomfe/echarts-wordcloud/raw/master/dist/echarts-wordcloud.min.js"></script>
     <title>chengdu_voc</title>
     <style>
       @font-face {
-         font-family: "MyFont";
-         src: url("./fonts/ChillLongCangKaiShu_Regular.0b77245d.otf");}
+        font-family: MyFont;
+        src: url(fonts/ChillLongCangKaiShu_Regular.0b77245d.otf);
+      }
       #wordcloud {
         width: 50%;
         height: 700px;
         float: left;
       }
       #info-container {
-/*         margin-top: 20px; */
+        /*         margin-top: 20px; */
         display: flex;
         justify-content: center; /* 水平居中 */
         align-items: center; /* 垂直居中 */
         flex-direction: column;
-        padding；10px;
+        padding: 10px;
       }
 
       #info-text {
+        font-family: "MyFont";
         flex: 1;
         max-width: 100%; /* 响应式，最大宽度为容器宽度 */
-        font-size: 20px;
-        font-family：MyFont;
+        font-size: 25px;
         text-align: center; /* 如果你想要文本在垂直堆叠时也居中 */
       }
 
       #info-image {
-
         /* 注意：这里我们直接对 #info-image 应用样式，而不是 #info-image img */
         max-width: 100%; /* 响应式，最大宽度为容器宽度 */
         height: auto; /* 保持图片的原始纵横比 */
-        margin-bottom:10px;
+        margin-bottom: 10px;
       }
     </style>
   </head>
- <body style="background-color: rgba(240,248,255,0.5)">
+  <body>
     <center>
-      <div id="main" style="height: 400px; width: 500px"></div>
+      <div id="main" style="height: 600px; width: 800px"></div>
       <div id="info-container">
         <div id="info-text"></div>
         <div id="info-image"></div>
@@ -248,9 +248,9 @@
           left: "center",
           textStyle: {
             // 文本样式
-            fontSize: 32, // 字体大小，你可以根据需要调整这个值
+            fontFamily: "MyFont",
+            fontSize: 36, // 字体大小，你可以根据需要调整这个值
             color: "#000", // 字体颜色，你也可以修改这个值
-          
           },
         },
         series: [
@@ -259,9 +259,10 @@
             // 指定他的类型为wordCloud
             type: "wordCloud",
             // 设置字符大小范围
-            sizeRange: [20, 40],
+            sizeRange: [25, 50],
             rotationRange: [-45, 90],
             textStyle: {
+              fontFamily: "MyFont",
               color: function () {
                 return (
                   "rgb(" +
