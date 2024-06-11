@@ -5,6 +5,13 @@
     <title>全国地图</title>
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+      <style>
+      @font-face {
+        font-family: MyFont;
+        src: url(font/ChillLongCangKaiShu_Regular.0b77245d.otf);
+      }
+
+    </style>
 </head>
 <body  style="background-color: rgba(240,248,255,0.5)">
     <div id="china" style="width:700px ; height: 700px;"></div>
@@ -20,6 +27,9 @@ echarts.registerMap('china', geoJson);
 myChart.setOption(
   option = {
   title: {
+          textStyle: {
+      fontFamily: "MyFont",
+          },
       text: '中国地图',
   },
 
@@ -115,7 +125,9 @@ myChart.setOption(
   ],
 
   tooltip: {
-          
+              textStyle: {
+      fontFamily: "MyFont",
+          },
           trigger: 'item',
           position: 'top',
           formatter:  function(params) {
