@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+    <script src="https://raw.gitcode.com/ecomfe/echarts-wordcloud/raw/master/dist/echarts-wordcloud.min.js"></script>
+    <title>guangzhou_voc</title>
+    <style>
+      @font-face {
+        font-family: MyFont;
+        src: url(fonts/ChillLongCangKaiShu_Regular.0b77245d.otf);
+      }
+      #wordcloud {
+        width: 50%;
+        height: 700px;
+        float: left;
+      }
+      #info-container {
+        /*         margin-top: -30px; */
+        display: flex;
+        justify-content: center; /* 水平居中 */
+        align-items: center; /* 垂直居中 */
+        flex-direction: column;
+        padding: 10px;
+      }
+
+      #info-text {
+        font-family: "MyFont";
+        flex: 1;
+        max-width: 100%; /* 响应式，最大宽度为容器宽度 */
+        font-size: 25px;
+        text-align: center; /* 如果你想要文本在垂直堆叠时也居中 */
+      }
+
+      #info-image {
+        /* 注意：这里我们直接对 #info-image 应用样式，而不是 #info-image img */
+        max-width: 100%; /* 响应式，最大宽度为容器宽度 */
+        height: auto; /* 保持图片的原始纵横比 */
+        margin-bottom: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <center>
+      <div id="main" style="height: 600px; width: 800px"></div>
+      <div id="info-container">
+        <div id="info-text"></div>
+        <div id="info-image"></div>
+      </div>
+    </center>
+    <script type="text/javascript">
+      // 进行echarts的初始化，以及定位到画布
+      var mychart = echarts.init(document.getElementById("main"));
+      var jsonlist = [];
+      jsonlist.push(
+        {
+          name: "文艺",
+          value: 371,
+          info: "",
+        },
+        {
+          name: "散漫",
+          value: 387,
+          info: "",
+        },
+        {
+          name: "鸡都",
+          value: 281,
+          info: "一只鸡在广州有无数种死法，白切、酱油王、盐焗、咸香、椰汁炖竹丝鸡汤……广州人无鸡不成宴，这点不接受任何反驳。",
+        },
+        {
+          name: "暗黑料理",
+          value: 163,
+          info: "",
+        },
+        {
+          name: "水蟑螂",
+          value: 555,
+          info: "资深的粤菜店才会有的压箱底菜品，下了单不需要多余的言语嘱咐，就会看到不一会儿下单小哥就淡定地端上一碟油亮亮的“蟑螂”，他会温馨提醒你“新鲜落锅，甘食最正，益生补肾止夜尿”，这是广州吃货最能感受人情味儿的时候。",
+          imageUrl: "img/guangzhou/shuizhanglang.jpg",
+        },
+        {
+          name: "牛杂",
+          value: 405,
+          info: "萝卜牛杂是广州西关地区深受欢迎的传统小吃，历史悠久，近二百年。它主要由白萝卜、牛杂（如牛肚、牛心、牛肝等）以及多种香料如花椒、八角、桂皮等煲制而成。牛杂具有爽口弹牙的口感，而白萝卜则被酱汁浸泡得十分入味。食用时，常蘸甜酱或辣酱，味道浓香。此外，萝卜牛杂不仅美味，还富含蛋白质，营养价值高，是广州街头巷尾的一道独特风景。",
+          imageUrl: "img/guangzhou/niuza.jpg",
+        },
+        {
+          name: "海鲜",
+          value: 687,
+          info: "",
+        },
+        {
+          name: "煲汤",
+          value: 421,
+          info: "",
+        },
+        {
+          name: "越秀公园",
+          value: 410,
+          info: "越秀公园是广州城市中心的一颗璀璨明珠，被誉为“越秀风华”，是新世纪羊城八景之一。公园内林木茂盛，山水相依，绿化覆盖率高达83.48%。它由主峰越井岗及其他六个山岗和三个人工湖组成，自然景色壮观。园内还有众多岭南特色的园林景点，如亭、台、楼、阁、廊、榭等。历史悠久的越秀山，因西汉时南越王赵佗在此建“朝汉台”而得名，山上还有著名的古迹镇海楼，登楼可以俯瞰整个羊城的美景。",
+          imageUrl: "img/guangzhou/yuexiugongyuan.webp",
+        },
+        {
+          name: "白云山",
+          value: 1622,
+          info: "白云山被誉为“羊城第一秀”，是广州市内最著名的山峦，游客们无论春夏秋冬都可以在这里找到不同的自然风貌。攀登至白云山的最高点摩星岭，可以俯瞰整个广州市区，清新的空气和宁静的环境使人忘却城市的喧嚣。",
+          imageUrl: "img/guangzhou/baiyunshan.jpg",
+        },
+        {
+          name: "交融",
+          value: 219,
+          info: "",
+        },
+        {
+          name: "五羊雕塑",
+          value: 314,
+          info: "《五羊石像》是由尹积昌、陈本宗、孔繁纬创作的花岗岩城市雕塑，始建于1960年4月，位于广州市越秀公园内的越秀山木壳岗。《五羊石像》整个石像连基座高11米。主羊头部高高昂起，口中衔穗，回眸微笑，其余四羊环绕于主羊周围，或戏耍，或吃草。五羊大小不一，姿态各异，造型优美，已经成为广州城市的标志。",
+          imageUrl: "img/guangzhou/wuyangdiaosu.jpg",
+        },
+        {
+          name: "夜色",
+          value: 677,
+          info: "",
+        },
+        {
+          name: "有轨电车",
+          value: 561,
+          info: "广州最让我迷恋的交通工具，只要2元，就能看变广州最美的7.7公里，心情阴郁时，就会来回坐几趟，检票的小姐姐也不会用异样的眼光扫视我。@櫻花雨落下",
+          imageUrl: "img/guangzhou/youguidianche.webp",
+        },
+        {
+          name: "广州塔",
+          value: 1844,
+          info: "广州塔是广州市的新地标，别名小蛮腰，也是世界第三高的电视塔。它位于广州市海珠区赤岗塔附近，高度达到了600米。广州塔的设计灵感来自于广州的五羊传说，塔身呈现出五朵花瓣的形状，寓意着广州的繁荣和美好。广州塔不仅是广州的标志性建筑，也是广州市民自豪的象征。",
+          imageUrl: "img/guangzhou/guangzhouta.jpeg",
+        },
+        {
+          name: "荔枝湾",
+          value: 166,
+          info: "荔枝湾是广州的老城区，也是广州市的文化重地。在这里，有着许多历史悠久的建筑和文化遗产。荔枝湾的建筑风格以岭南建筑为主，具有浓郁的广州特色。在这里，游客可以感受到广州的历史和文化底蕴，了解广州的发展历程。",
+          imageUrl: "img/guangzhou/lizhiwan.jpg",
+        },
+        {
+          name: "长隆旅游度假区",
+          value: 1273,
+          info: "广州市长隆旅游度假区（Chimelong Tourist Resort），位于广东省广州市番禺区汉溪大道东与长隆地铁大道交汇处，创立于1989年。广州长隆旅游度假区是综合性主题旅游度假区，总占地面积1万亩，集旅游景区、酒店餐饮、娱乐休闲于一体，拥有长隆欢乐世界、长隆国际大马戏、长隆野生动物世界、长隆水上乐园、长隆飞鸟乐园、广州长隆酒店、香江酒店、长隆高尔夫练习中心和香江酒家等设施。",
+          imageUrl: "img/guangzhou/changlong.jpeg",
+        },
+        {
+          name: "珠江夜游",
+          value: 233,
+          info: "珠江夜游，作为广州“羊城八景”之一，是广州旅游一张靓丽的名片。珠江两岸夜色美不胜收，汇集岭南特色古建筑群，沿途可观赏到广州塔、海心沙、星河音乐厅、白鹅潭等著名景点。",
+          imageUrl: "img/guangzhou/zhujiangyeyou.jpg",
+        },
+        {
+          name: "粤剧",
+          value: 565,
+          info: "粤剧，又称“广东大戏”或者“大戏”，广东传统戏曲之一，有300余年的历史。粤剧吸纳了多元的音乐、戏剧元素，将梆子、二簧声腔与粤方言音韵予以完美的结合，创造性地拓展了中国戏曲的艺术表现。",
+          imageUrl: "img/guangzhou/yueju.jpg",
+        },
+        {
+          name: "陈家祠",
+          value: 839,
+          info: "陈家祠是一座保存完好的清代建筑，它不仅是广州传统岭南建筑的典范，更因其精美的石雕、木雕、砖雕、陶塑和彩绘而备受青睐。陈家祠内的装饰充满了广东地区特有的艺术风格，每一处细节都显示出古代工匠的精湛技艺。",
+          imageUrl: "img/guangzhou/chenjiaci.jpeg",
+        },
+        {
+          name: "上下九步行街",
+          value: 319,
+          info: "上下九步行街是广州最繁华的商业街之一，也是广州的文化和历史象征。沿街可以看到许多有百年历史的商铺，而这里的美食也是不可错过的一大特色，琳琅满目的岭南小吃将会满足每一个美食爱好者的味蕾。夜晚的上下九步行街更加繁华，灯火通明，游客络绎不绝，是感受广州市井生活的绝佳场所。",
+          imageUrl: "img/guangzhou/shangxiajiubuxingjie.jpg",
+        },
+        {
+          name: "沙面岛",
+          value: 297,
+          info: "沙面岛是广州市区的一个小岛，因其拥有丰富的欧式建筑而闻名遐迩。沙面岛曾是外国在华的租界地，因此这里保留了众多精美的英法式老建筑。漫步在岛上，宛如置身于欧洲小镇，每一座建筑都有着自己的历史和故事。",
+          imageUrl: "img/guangzhou/shamiandao.webp",
+        },
+        {
+          name: "中山纪念堂",
+          value: 512,
+          info: "广州中山纪念堂是广州城市历史和文化的代表，也是孙中山先生的纪念地。位于广东省广州市越秀区东风中路，该纪念堂是一座八角形建筑，外形庄严宏伟，具有浓厚的民族特色。设计师巧妙地运用了建筑力学的结构原理，使得整个建筑空间跨度达七十一米而不设一柱。",
+          imageUrl: "img/guangzhou/zhongshanjiniantang.webp",
+        },
+        {
+          name: "肠粉",
+          value: 1090,
+          info: "肠粉是广州的传统小吃，由米浆蒸制而成，以其白细、薄而透的粉皮和鲜美的味道著称。在广州，无论大街小巷，都可以找到它的身影。肠粉的馅料多样，包括鸡蛋、牛肉、叉烧、鱼片、虾仁和牛腩等。广东人视肠粉为早餐的首选，尤其是广州的西关肠粉和潮汕肠粉，各有特色。此外，肠粉还有咸甜之分，甜肠粉内馅主要是糖浸的蔬果，而咸肠粉则以猪肉、牛肉等为主。",
+          imageUrl: "img/guangzhou/changfen.webp",
+        },
+        {
+          name: "艇仔粥",
+          value: 412,
+          info: "艇仔粥是广州著名的传统小吃，起源于珠江三角洲的水上游民——疍民，也被称为水上人家。这道菜融合了丰富的食材，如生鱼片、鱿鱼丝、蛋丝、叉烧肉、花生、鲜虾、油条和浮皮等。经过精细的烹煮，艇仔粥的粥底绵滑，味道鲜美，口感丰富。",
+          imageUrl: "img/guangzhou/tingzaizhou.jpeg",
+        },
+        {
+          name: "云吞面",
+          value: 320,
+          info: "云吞面是广州的地道美食，属于粤菜系。它由竹升面、鱼骨、虾仁等熬制的汤头和云吞组成。云吞皮薄肉多，肉馅儿十足，三肥七瘦，独特的味道使其成为粤菜中的佼佼者。云吞面分为汤面与捞面，煮熟的馄饨和蛋面加入热汤即成。",
+          imageUrl: "img/guangzhou/yuntunmian.jpeg",
+        },
+        {
+          name: "煲仔饭",
+          value: 943,
+          info: "煲仔饭是广州的代表性美食，以其丰富的食材和独特的口感深受人们喜爱。广东人称砂锅为“煲仔”，用煲仔煮出的饭带有特有的饭香，粒粒分明，并带有焦焦脆脆的锅巴。煲仔饭的种类繁多，包括香菇滑鸡煲仔饭、叉烧煲仔饭、排骨煲仔饭、腊味煲仔饭等，几乎涵盖了所有你想到的肉类。制作煲仔饭时，通常先将锅中刷猪油，再放入淘好的米，量好水量，加盖煲至七成熟时加入配料，转用慢火煲熟。",
+          imageUrl: "img/guangzhou/baozaifan.webp",
+        },
+        {
+          name: "糯米鸡",
+          value: 400,
+          info: "糯米鸡是广东汉族的特色点心，起源于广州的夜市。它主要由鸡肉、猪肉、虾米、冬菇、瑶柱等馅料包裹在糯米中，再用荷叶包裹后蒸熟。这种独特的烹饪方式让糯米饭带有荷叶的清香，与肉香混合，形成了一种令人难以忘怀的味道。",
+          imageUrl: "img/guangzhou/nuomiji.jpg",
+        },
+        {
+          name: "姜撞奶",
+          value: 409,
+          info: "姜撞奶是广东珠江三角洲汉族的传统美食，起源于广州市番禺区沙湾镇，属于粤菜系列。这款小吃以姜汁和牛奶为主要原料，经过特殊加工制作而成。其口感香醇、爽滑，甜中带有微辣，风味独特。除了美味，姜撞奶还具有暖胃和表热的效果，同时也有止咳、驱寒、养颜的功效。",
+          imageUrl: "img/guangzhou/jiangzhuangnai.jpeg",
+        },
+        {
+          name: "干炒牛河",
+          value: 452,
+          info: "干炒牛河是广州的特色小炒，常见于街边大排档和酒楼。这道菜色泽油润，河粉爽滑有弹性，牛肉滑嫩。尽管外观家常，其实制作难度很高，关键在于沙河粉和炒出锅气，考验厨师的功底。炒出的河粉看似有油，但并不油腻，口感爽口入味。",
+          imageUrl: "img/guangzhou/ganchaoniuhe.webp",
+        },
+        {
+          name: "早茶",
+          value: 442,
+          info: "广州早茶是广州独特的餐饮文化，深受当地人和游客的喜爱。这种早茶不仅仅是满足口腹之欲，更是一种社交和休闲的方式。在茶楼里，人们三五个好友围坐一桌，泡上一壶茶，点上几样精致的点心，如虾饺、蒸凤爪、叉烧包等，边吃边聊，享受那份悠闲与惬意。这些点心不仅美味，而且外观精致，让人大饱眼福。因此，体验广州早茶是来广州旅游的必打卡项目。",
+          imageUrl: "img/guangzhou/zaocha.webp",
+        },
+        {
+          name: "老火靓汤",
+          value: 156,
+          info: "老火靓汤，又称广府汤，是粤菜系中的经典代表。这种汤是广府人传承数千年的食补养生秘方，其制作过程需慢火煲煮，火候足、时间长，既达到药补的效果，又具有入口的甘甜。广府老火汤种类繁多，可以用各种汤料和烹调方法，制作出各种不同口味和功效的汤。广东人习惯于喝老火汤，不仅是为了滋补，更是一种带有浓郁地方特色的文化。",
+          imageUrl: "img/guangzhou/laohuoliangtang.jpg",
+        }
+      );
+      // 小鸟的base64编码
+      //image =
+      //  "data:image/png;base64,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";
+      // 五角星图片
+      // 配置项和配置数据
+      //var maskImage = new Image();
+      //maskImage.src = image;
+      var option = {
+        tooltip: {
+          show: true,
+          formatter: function (params) {
+            return params.name + ": " + params.value;
+          },
+        },
+        title: {
+          text: "广州词云图",
+          left: "center",
+          textStyle: {
+            // 文本样式
+            fontFamily: "MyFont",
+            fontSize: 32, // 字体大小，你可以根据需要调整这个值
+            color: "#000", // 字体颜色，你也可以修改这个值
+          },
+        },
+        series: [
+          {
+            //maskImage: maskImage,
+            // 指定他的类型为wordCloud
+            type: "wordCloud",
+            // 设置字符大小范围
+            sizeRange: [20, 40],
+            rotationRange: [-45, 90],
+            textStyle: {
+              fontFamily: "MyFont",
+              color: function () {
+                return (
+                  "rgb(" +
+                  Math.round(Math.random() * 160) +
+                  "," +
+                  Math.round(Math.random() * 160) +
+                  "," +
+                  Math.round(Math.random() * 160) +
+                  ")"
+                );
+              },
+            },
+            // 调用数据
+            data: jsonlist,
+          },
+        ],
+      };
+      // echarts的点击事件
+      mychart.on("click", function (params) {
+        // params 中包含了被点击项的信息
+        var infoTextElement = document.getElementById("info-text");
+        var infoImageElement = document.getElementById("info-image");
+
+        // 清除之前的图片（如果有的话）
+        infoImageElement.innerHTML = "";
+
+        // 使用 params 中的 name 来查找对应的额外信息
+        var selectedItem = jsonlist.find(function (item) {
+          return item.name === params.name;
+        });
+
+        if (selectedItem) {
+          // 显示选中的词语对应的额外信息
+          infoTextElement.innerHTML = selectedItem.info;
+          if (selectedItem.imageUrl) {
+            // 显示图片
+            var imgElement = document.createElement("img");
+            imgElement.src = selectedItem.imageUrl;
+            imgElement.alt = selectedItem.name;
+            infoImageElement.appendChild(imgElement);
+            imgElement.style.width = "650px";
+            imgElement.style.height = "400px";
+          } else {
+            infoImageElement.innerHTML = "";
+          }
+        } else {
+          // 如果没有找到对应项，可以清空或显示默认信息
+          infoTextElement.innerHTML = "未找到相关信息";
+        }
+      });
+      mychart.setOption(option);
+      // 调用设置选项
+      //maskImage.onload = function () {
+      //  mychart.setOption(option);
+      //};
+    </script>
+  </body>
+</html>
