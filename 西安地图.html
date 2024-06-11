@@ -30,8 +30,8 @@
     visualMap: {
         seriesIndex: 0,
           show:false,
-          min: 1,
-          max: 3,
+          min: 2,
+          max: 14,
           // text: ['High', 'Low'],
           // realtime: true,
           // calculable: true,
@@ -39,8 +39,7 @@
           // left:'100px',
           // bottom:'100px',
           inRange: {
-          color: ['#FCDB93', '#F8D8D6', '#D2FCFD']
-          }
+            color: ['#EDF6F9', '#B7D8DE', '#2A8795']          }
                 },
       series: [
           {
@@ -51,24 +50,24 @@
               show: true
           },
           data: [
-          { name: '未央区', value: 1 },
-              { name: '新城区', value: 2 },
-              { name: '碑林区', value: 2 },
-              { name: '莲湖区', value: 1 },
-              { name: '灞桥区', value: 3 },
-              { name: '雁塔区', value: 3 },
-              { name: '阎良区', value: 1 },
-              { name: '临潼区', value: 2 },
-              { name: '长安区', value: 2 },
-              { name: '高陵区', value: 1 },
-              { name: '鄠邑区', value: 2 },
-              { name: '蓝田县', value: 3 },
-              { name: '周至县', value: 2 },
+              { name: '未央区', value: 4 },
+              { name: '新城区', value: 3 },
+              { name: '碑林区', value: 5 },
+              { name: '莲湖区', value: 3 },
+              { name: '灞桥区', value: 7 },
+              { name: '雁塔区', value: 6 },
+              { name: '阎良区', value: 2 },
+              { name: '临潼区', value: 6 },
+              { name: '长安区', value: 14 },
+              { name: '高陵区', value: 3 },
+              { name: '鄠邑区', value: 8 },
+              { name: '蓝田县', value: 13 },
+              { name: '周至县', value: 3 },
 
           ],   
           },
           {
-                      name: '标记点',
+                      name: '标记点1',
                       type: 'effectScatter',
                       coordinateSystem: 'geo',
                       data: [
@@ -88,6 +87,31 @@
     
                       symbolSize: 15,
                       color:'#FFA54F',
+                      visualMap:false
+                      
+                      
+            },
+            {
+                      name: '标记点2',
+                      type: 'effectScatter',
+                      coordinateSystem: 'geo',
+                      data: [
+                      
+                        {name: '西安城墙', value:[108.92537100000004,34.263622000000005], tooltipContent: '在六百多年历史的古城墙上骑车漫步，俯瞰十三朝古都<br/>推荐指数：★★★★'},
+                        {name: '陕西历史博物馆', value:[108.95529699999997,34.224275999999996], tooltipContent: '被誉为“华夏珍宝库”和“中华文明的瑰丽殿堂” ，浓缩了中华民族的历史精华<br/>推荐指数：★★★★★'},
+                        {name: '华清宫', value:[109.21276999999998,34.36372], tooltipContent: '中国最古老的皇家园林之一，据说曾经是是杨贵妃沐浴的地方<br/>推荐指数：★★★★★'},
+                        {name: '大唐芙蓉园', value:[108.97434999999996,34.212740000000004], tooltipContent: '西北最大文化主题园，晚上华灯齐放，坐拥全球最大水幕电影<br/>推荐指数：★★★★★'},
+                        {name: '荐福寺小雁塔', value:[108.94200000000001,34.2392], tooltipContent: '始建于唐代，小雁塔的“雁塔晨钟”为古长安的“关中八景之一”<br/>推荐指数：★★★★'},
+                        
+                        ],
+                      label:{
+                        formatter: '{b}',
+                        show:true,
+                        position: 'left',
+                      },
+    
+                      symbolSize: 15,
+                      color:'#F9ED69',
                       visualMap:false
                       
                       
